@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>【占位·网页标题】</title>
+<!--
+================================================================
+   人工二改，AI第一次编写 别忘了修改上方title！！！
+   2. 滚到最底部 <script> 里的 CONFIG 对象 !!!194行以下!!!
+================================================================
+-->
+<style>
+/* ============ 0. 全局：越花越乱越带劲 ============ */
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Comic Sans MS","华文琥珀","华文彩云","微软雅黑",sans-serif;
+  background-color:#000;color:#0f0;
+  overflow-x:hidden;cursor:crosshair;
+  padding:0 8px 160px;
+  animation:bgPulse 7s linear infinite;
+}
+@keyframes bgPulse{
+  0%{background-color:#000}20%{background-color:#2a0033}40%{background-color:#003322}
+  60%{background-color:#332200}80%{background-color:#00223a}100%{background-color:#000}
+}
+/* 会动的"泥点子"背景 */
+#tile{
+  position:fixed;inset:-10%;z-index:-1;opacity:.22;pointer-events:none;
+  background-image:
+    radial-gradient(#ff00ff 3px,transparent 4px),
+    radial-gradient(#00ffff 3px,transparent 4px),
+    radial-gradient(#ffff00 2px,transparent 3px);
+  background-size:60px 60px,90px 90px,40px 40px;
+  background-position:0 0,30px 30px,15px 5px;
+  animation:tileMove 3s linear infinite;
+}
+@keyframes tileMove{to{background-position:60px 60px,120px 120px,55px 45px}}
+/* ============ 1. 文字特效 ============ */
+.rainbow{
+  animation:rainbow .6s steps(1) infinite,shake .15s infinite;
+  font-size:clamp(28px,7vw,72px);font-weight:900;line-height:1.15;
+  text-align:center;margin:14px 0;letter-spacing:2px;
+  -webkit-text-stroke:2px #000;
+}
+@keyframes rainbow{
+  0%{color:#f00;text-shadow:4px 4px 0 #0ff}
+  17%{color:#ff0;text-shadow:4px 4px 0 #f0f}
+  33%{color:#0f0;text-shadow:4px 4px 0 #00f}
+  50%{color:#0ff;text-shadow:4px 4px 0 #f00}
+  67%{color:#00f;text-shadow:4px 4px 0 #ff0}
+  83%{color:#f0f;text-shadow:4px 4px 0 #0f0}
+  100%{color:#f00;text-shadow:4px 4px 0 #0ff}
+}
+.blink{animation:blink .8s steps(1) infinite;}
+@keyframes blink{50%{opacity:0}}
+.shake{display:inline-block;animation:shake .16s infinite;}
+@keyframes shake{
+  0%{transform:translate(0,0) rotate(-1deg)}
+  25%{transform:translate(2px,-2px) rotate(1.5deg)}
+  50%{transform:translate(-2px,1px) rotate(-2deg)}
+  75%{transform:translate(1px,2px) rotate(1deg)}
+  100%{transform:translate(0,0) rotate(-1deg)}
+}
+.wordart{
+  display:inline-block;font-size:clamp(22px,5vw,44px);font-weight:900;
+  color:#ff0;transform:skew(-8deg) rotate(-2deg);
+  text-shadow:2px 2px 0 #f0f,4px 4px 0 #0ff,6px 6px 0 #000;
+  padding:4px 10px;
+}
+.giant{font-size:clamp(40px,13vw,140px);}
+.lime{color:#0f0}.magenta{color:#f0f}.cyan{color:#0ff}.yellow{color:#ff0}
+/* ============ 2. 滚动字幕（土味核心） ============ */
+marquee{
+  display:block;margin:12px 0;padding:8px 0;
+  background:linear-gradient(90deg,#ff0,#f0f,#0ff,#0f0,#ff0);
+  color:#000;font-weight:900;font-size:clamp(16px,3.4vw,30px);
+  border-top:6px dashed #f00;border-bottom:6px dashed #00f;
+}
+/* ============ 3. 歪掉的卡片 ============ */
+.card{
+  max-width:900px;margin:26px auto;padding:18px 16px;
+  background:repeating-linear-gradient(45deg,#111 0 12px,#1a1a1a 12px 24px);
+  border:8px double #0ff;
+  box-shadow:10px 10px 0 #f0f,-10px -10px 0 #ff0;
+  transform:rotate(-1.2deg);text-align:center;
+}
+.card:nth-of-type(even){
+  transform:rotate(1.6deg);border-color:#ff0;
+  box-shadow:-10px 10px 0 #0f0,10px -10px 0 #f00;
+}
+.card p{font-size:clamp(15px,2.6vw,22px);line-height:1.85;color:#fff;margin:10px 0;}
+.tagline{font-size:clamp(18px,4vw,34px);font-weight:900;color:#ff0;}
+/* ============ 4. 按钮 ============ */
+.btn{
+  display:inline-block;margin:6px;padding:14px 22px;
+  font-family:inherit;font-size:clamp(15px,2.6vw,22px);font-weight:900;
+  color:#000;background:#ff0;border:5px outset #f0f;
+  cursor:pointer;box-shadow:6px 6px 0 #00f;animation:shake .5s infinite;
+}
+.btn:hover{background:#0ff;box-shadow:2px 2px 0 #f00;animation:none;}
+.btn:active{transform:translate(4px,4px);box-shadow:none;}
+/* ============ 5. 弹窗广告 ============ */
+.ad{
+  position:fixed;z-index:60;width:min(290px,72vw);padding:10px 12px 14px;
+  background:#ff0;color:#000;border:6px ridge #f00;
+  font-weight:900;font-size:15px;text-align:center;
+  box-shadow:8px 8px 0 rgba(0,0,0,.6);
+  animation:adJiggle .9s infinite alternate;
+}
+@keyframes adJiggle{
+  from{transform:rotate(-2deg) scale(1)}
+  to{transform:rotate(2.5deg) scale(1.03)}
+}
+.ad .close{
+  position:absolute;top:-16px;right:-16px;width:34px;height:34px;border-radius:50%;
+  border:4px solid #000;background:#f00;color:#fff;font-weight:900;font-size:16px;
+  line-height:26px;text-align:center;cursor:pointer;
+}
+/* ============ 6. 假计数器 & 施工条 ============ */
+.counter{
+  display:inline-block;background:#000;border:4px inset #0f0;color:#f00;
+  font-family:"Courier New",monospace;font-size:26px;font-weight:900;
+  letter-spacing:3px;padding:4px 12px;
+}
+.pole{
+  height:26px;border:4px solid #000;
+  background:repeating-linear-gradient(45deg,#ff0 0 18px,#000 18px 36px);
+  background-size:51px 51px;animation:poleMove .8s linear infinite;
+}
+@keyframes poleMove{to{background-position:51px 0}}
+/* ============ 7. 粒子 & 提示条 ============ */
+.trail{
+  position:fixed;z-index:99;pointer-events:none;font-size:22px;
+  animation:trailFade .9s linear forwards;
+}
+@keyframes trailFade{
+  to{transform:translateY(40px) rotate(180deg) scale(.2);opacity:0}
+}
+.burst{position:fixed;z-index:99;pointer-events:none;font-size:30px;}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:120;
+  max-width:88vw;padding:12px 18px;background:#000;color:#0f0;
+  border:6px dashed #f0f;font-weight:900;
+  font-size:clamp(14px,2.4vw,20px);text-align:center;
+}
+/* ============ 8. 使用说明 & 页脚 ============ */
+.help{
+  max-width:900px;margin:30px auto;padding:14px 18px;
+  border:6px dotted #0ff;background:#101010;color:#0ff;
+  font-size:15px;line-height:1.9;text-align:left;
+}
+.help code{background:#222;color:#ff0;padding:1px 5px;}
+footer{text-align:center;color:#888;font-size:13px;margin:40px 0 0;}
+</style>
+</head>
+<body>
+<div id="tile"></div>
+<!-- ===== 顶部鬼畜标题（文字由 CONFIG 填） ===== -->
+<div class="rainbow giant" id="mainTitle">【占位·主标题】</div>
+<div style="text-align:center">
+  <span class="wordart" id="subTitle">【占位·副标题】</span>
+</div>
+
+<!-- ===== 滚动字幕 ===== -->
+<marquee behavior="alternate" scrollamount="14" id="marqueeAlt">【占位·来回横跳字幕】</marquee>
+<marquee direction="right" scrollamount="20" id="marqueeRight">【占位·逆向狂奔字幕】</marquee>
+
+<div style="text-align:center;margin:10px 0">
+  <span class="giant shake lime" id="bigName">【占位·主角名字】</span>
+</div>
+
+<!-- ===== 卡片区（内容由 CONFIG 生成） ===== -->
+<div id="cards"></div>
+
+<!-- ===== 按钮区 ===== -->
+<div style="text-align:center;margin:24px 0">
+  <button class="btn" id="btnSpeak">🔊 大声朗读</button>
+  <button class="btn" id="btnBgm">🎵 播放土味BGM</button>
+  <button class="btn" id="btnMore">💥 再来一句</button>
+  <button class="btn" id="btnAd">📢 弹个广告</button>
+  <button class="btn" id="btnReset">🧹 清屏</button>
+</div>
+
+<!-- ===== 假计数器 / 施工中 ===== -->
+<div style="text-align:center;margin:18px 0">
+  <span class="yellow blink">本页总访问量：</span>
+  <span class="counter" id="counter">0000283</span>
+  <div class="blink magenta" style="margin-top:6px;font-weight:900">🦺 本网页正在施工中 · 请勿靠近 🦺</div>
+  <div class="pole" style="max-width:900px;margin:8px auto"></div>
+</div>
+
+<!-- ===== CHG ABOVE ===== -->
+
+<footer>© 【占位·年份】 【占位·署名】 · 本页最佳浏览分辨率 800×600 · 建议使用 IE6 观看</footer>
+<script>
+/* ==================================================================
+   ★★★ 只改这一块就行：所有文案都在 CONFIG 里 ★★★
+   —— 每个【…】都是占位符，换成你自己写的字就行。
+   —— 数组（lines / pool / ads / emojis）想加几条加几条，逗号别丢。
+   ================================================================== */
+const CONFIG = {
+  title:       "【震 惊 全 网】",
+  subTitle:    "【超级福瑞控LHT】",
+  bigName:     "【LHT居然是同性恋】",
+  marqueeAlt:  "【隐藏了12年终于被发现】",
+  marqueeRight:"【有114514个扫福瑞与其战斗失败】",
+  speakText:   "扫福瑞",
+
+  // 歪卡片：一条 = 一张卡
+  lines: [
+    "【据不愿透露姓名的人士透露……】",
+    "【占位·第 2 条】",
+    "【占位·第 3 条】"
+  ],
+  // 点“再来一句”随机吐出来的短句池
+  pool: [
+    "【占位·随机短句 1】",
+    "【占位·随机短句 2】",
+    "【占位·随机短句 3】",
+    "【占位·随机短句 4】"
+  ],
+  // 弹窗广告文案
+  ads: [
+    "【占位·广告 1，例如：点击就送屠龙宝刀】",
+    "【占位·广告 2，例如：开局一条狗，装备全靠捡】"
+  ],
+  // 鼠标拖尾 / 点击爆炸用的表情
+  emojis: ["💥", "🌈", "⭐", "🐟", "🍜", "👑", "❗"],
+
+  // 系统提示文案
+  tips: {
+    adClosed: "【占位·提示】广告已关闭，但这份粗糙永存。",
+    cleaned:  "【占位·提示】清屏完成，风格依旧相当野生。",
+    musicOn:  "【占位·提示】土味 BGM 已启动，音量请自行忍受。",
+    musicOff: "【占位·提示】BGM 已停，世界安静了。",
+    musicFail:"【占位·提示】你的浏览器不肯出声（AudioContext 不可用）。"
+  },
+
+  bgmNotes: [523, 659, 784, 659], // 土味 BGM 的音高（Hz），随便改
+  visitorStart: 12345             // 假访问量起始值
+};
+
+/* ==================================================================
+   下面是页面逻辑，不改 CONFIG 的话不需要动
+   ================================================================== */
+(function () {
+  const $ = function (id) { return document.getElementById(id); };
+  const pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
+  const pad = function (n) { return String(n).padStart(6, "0"); };
+
+  /* ---------- 1. 把 CONFIG 的字填进页面 ---------- */
+  document.title = CONFIG.title.replace(/[【】]/g, "");
+  $("mainTitle").textContent    = CONFIG.title;
+  $("subTitle").textContent     = CONFIG.subTitle;
+  $("bigName").textContent      = CONFIG.bigName;
+  $("marqueeAlt").textContent   = CONFIG.marqueeAlt + "　　" + CONFIG.marqueeAlt;
+  $("marqueeRight").textContent = CONFIG.marqueeRight + "　　" + CONFIG.marqueeRight;
+
+  /* ---------- 2. 生成歪卡片 ---------- */
+  const cardBox = $("cards");
+  CONFIG.lines.forEach(function (text, i) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const tag1 = document.createElement("div");
+    tag1.className = "tagline";
+    tag1.textContent = "第 " + (i + 1) + " 条";
+
+    const p = document.createElement("p");
+    p.textContent = text;
+
+    const tag2 = document.createElement("div");
+    tag2.className = "tagline blink";
+    tag2.textContent = CONFIG.bigName;
+
+    card.appendChild(tag1);
+    card.appendChild(p);
+    card.appendChild(tag2);
+    cardBox.appendChild(card);
+  });
+
+  /* ---------- 3. 假访问量计数器 ---------- */
+  let hits = CONFIG.visitorStart;
+  const counter = $("counter");
+  counter.textContent = pad(hits);
+  setInterval(function () {
+    hits += 1 + Math.floor(Math.random() * 7);
+    counter.textContent = pad(hits);
+  }, 800);
+
+  /* ---------- 4. 鼠标 / 手指拖尾 ---------- */
+  let lastTrail = 0;
+  document.addEventListener("pointermove", function (e) {
+    const now = Date.now();
+    if (now - lastTrail < 60) { return; }
+    lastTrail = now;
+    const s = document.createElement("span");
+    s.className = "trail";
+    s.textContent = pick(CONFIG.emojis);
+    s.style.left = (e.clientX - 10) + "px";
+    s.style.top = (e.clientY - 10) + "px";
+    document.body.appendChild(s);
+    setTimeout(function () { s.remove(); }, 900);
+  });
+
+  /* ---------- 5. 点击位置爆炸 ---------- */
+  document.addEventListener("click", function (e) {
+    for (let i = 0; i < 10; i++) {
+      const s = document.createElement("span");
+      s.className = "burst";
+      s.textContent = pick(CONFIG.emojis);
+      s.style.left = (e.clientX - 15) + "px";
+      s.style.top = (e.clientY - 15) + "px";
+      const ang = Math.random() * Math.PI * 2;
+      const dist = 60 + Math.random() * 160;
+      s.animate([
+        { transform: "translate(0,0) rotate(0deg) scale(1)", opacity: 1 },
+        {
+          transform: "translate(" + Math.cos(ang) * dist + "px," +
+                     Math.sin(ang) * dist + "px) rotate(" +
+                     (Math.random() * 720 - 360) + "deg) scale(.4)",
+          opacity: 0
+        }
+      ], { duration: 900, easing: "ease-out" });
+      document.body.appendChild(s);
+      setTimeout(function () { s.remove(); }, 900);
+    }
+    if (Math.random() < 0.3) { toast(pick(CONFIG.pool)); }
+  });
+
+  /* ---------- 6. 底部提示条 ---------- */
+  let toastTimer = null;
+  function toast(msg) {
+    let el = document.querySelector(".toast");
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "toast";
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.remove(); }, 2400);
+  }
+
+  /* ---------- 7. 弹窗广告（关闭按钮会先溜一下） ---------- */
+  let adSeed = 0;
+  function adSpot(i) {
+    const W = Math.max(window.innerWidth - 320, 20);
+    const H = Math.max(window.innerHeight - 200, 80);
+    const spots = [
+      { x: 20, y: 90 },
+      { x: W, y: 140 },
+      { x: W / 2 - 140, y: H },
+      { x: Math.max(W / 2 - 140, 20), y: 70 },
+      { x: W - 40, y: H - 40 }
+    ];
+    const s = spots[i % spots.length];
+    return {
+      x: Math.max(8, Math.min(s.x, Math.max(window.innerWidth - 300, 8))),
+      y: Math.max(60, Math.min(s.y, Math.max(window.innerHeight - 170, 80)))
+    };
+  }
+  function spawnAd(text) {
+    const ad = document.createElement("div");
+    ad.className = "ad";
+    const spot = adSpot(adSeed++);
+    ad.style.left = spot.x + "px";
+    ad.style.top = spot.y + "px";
+
+    const close = document.createElement("div");
+    close.className = "close";
+    close.textContent = "×";
+    let dodged = false;
+    close.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      if (!dodged) {                       // 第一次点：溜走
+        dodged = true;
+        const s2 = adSpot(Math.floor(Math.random() * 5));
+        ad.style.left = s2.x + "px";
+        ad.style.top = s2.y + "px";
+        close.textContent = "再点";
+        return;
+      }
+      ad.remove();                         // 第二次点：真关
+      toast(CONFIG.tips.adClosed);
+    });
+
+    const line1 = document.createElement("div");
+    line1.textContent = "🙈 关闭按钮在哪？";
+    line1.style.fontSize = "12px";
+
+    const line2 = document.createElement("div");
+    line2.textContent = text;
+    line2.style.marginTop = "4px";
+
+    ad.appendChild(close);
+    ad.appendChild(line1);
+    ad.appendChild(line2);
+    document.body.appendChild(ad);
+    return ad;
+  }
+  // 打开页面 1.2 秒 / 3 秒后各送一个广告
+  setTimeout(function () { spawnAd(CONFIG.ads[0]); }, 1200);
+  setTimeout(function () { spawnAd(pick(CONFIG.ads)); }, 3000);
+
+  /* ---------- 8. 按钮 ---------- */
+  $("btnSpeak").addEventListener("click", function () {
+    if (!("speechSynthesis" in window)) {
+      toast("你的浏览器不肯开口");
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(CONFIG.speakText);
+    u.lang = "zh-CN";
+    u.rate = 1;
+    u.pitch = 1.4;
+    u.volume = 1;
+    window.speechSynthesis.speak(u);
+  });
+
+  $("btnMore").addEventListener("click", function () { toast(pick(CONFIG.pool)); });
+  $("btnAd").addEventListener("click", function () { spawnAd(pick(CONFIG.ads)); });
+  $("btnReset").addEventListener("click", function () {
+    // 延迟到本次点击的爆炸粒子生成之后再清，才能真的清干净
+    setTimeout(function () {
+      document.querySelectorAll(".ad,.toast,.burst,.trail").forEach(function (n) {
+        n.remove();
+      });
+      toast(CONFIG.tips.cleaned);
+    }, 0);
+  });
+
+  /* ---------- 9. 土味 BGM（Web Audio，必须点按钮才会响） ---------- */
+  let actx = null;
+  let bgmTimer = null;
+  const btnBgm = $("btnBgm");
+  btnBgm.addEventListener("click", function () {
+    if (bgmTimer) {                        // 再点一次 = 关掉
+      clearInterval(bgmTimer);
+      bgmTimer = null;
+      btnBgm.textContent = "🎵 播放土味BGM";
+      toast(CONFIG.tips.musicOff);
+      return;
+    }
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === "suspended") { actx.resume(); }
+      let i = 0;
+      const play = function () {
+        const osc = actx.createOscillator();
+        const gain = actx.createGain();
+        osc.type = "square";
+        osc.frequency.value = CONFIG.bgmNotes[i % CONFIG.bgmNotes.length];
+        gain.gain.value = 0.06;
+        osc.connect(gain);
+        gain.connect(actx.destination);
+        osc.start();
+        osc.stop(actx.currentTime + 0.22);
+        i++;
+      };
+      play();
+      bgmTimer = setInterval(play, 260);
+      btnBgm.textContent = "🔇 关掉土味BGM";
+      toast(CONFIG.tips.musicOn);
+    } catch (err) {
+      toast(CONFIG.tips.musicFail);
+    }
+  });
+})();
+</script>
+</body>
+</html>
