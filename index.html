@@ -213,6 +213,12 @@ const CONFIG = {
     "【据不愿透露姓名的人士透露……】",
     "【根据有MYT Blued好友的透露】",
     "【根据他的朋友透露】"
+  ], 
+   // 👇 加上这个数组，你想写多少条写多少条
+  footers: [
+    "【这是第一张卡的专属底标】",
+    "【这是第二张卡的专属底标】",
+    "【这是第三张卡的专属底标】"
   ],
   // 点“再来一句”随机吐出来的短句池
   pool: [
@@ -273,7 +279,7 @@ const CONFIG = {
 
     const tag2 = document.createElement("div");
     tag2.className = "tagline blink";
-    tag2.textContent = CONFIG.bigName;
+    tag2.textContent = CONFIG.footers[i] || CONFIG.bigName;
 
     card.appendChild(tag1);
     card.appendChild(p);
