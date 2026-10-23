@@ -348,8 +348,9 @@ body{
   <span class="wordart" id="subTitle">【占位·副标题】</span>
 </div>
 
-<marquee behavior="alternate" scrollamount="14" id="marqueeAlt">【占位·来回横跳字幕】</marquee>
-<marquee direction="right" scrollamount="20" id="marqueeRight">【占位·逆向狂奔字幕】</marquee>
+<!-- 这里去掉了 behavior="alternate"，现在默认是单向向左滚动 -->
+<marquee id="marqueeAlt">【占位·来回横跳字幕】</marquee>
+<marquee direction="right" id="marqueeRight">【占位·逆向狂奔字幕】</marquee>
 
 <div style="text-align:center;margin:10px 0">
   <span class="giant shake lime" id="bigName">【占位·主角名字】</span>
@@ -391,7 +392,7 @@ const CONFIG = {
   title:       "【震 惊 全 网】",          // 网页大标题
   subTitle:    "【超级福瑞控武昭宇】",      // 副标题
   bigName:     "【武昭宇居然是同性恋】",    // 中间巨大的名字
-  marqueeAlt:  "【隐藏了14年终于被发现】",  // 来回滚动字幕
+  marqueeAlt:  "【隐藏了14年终于被发现】",  // 来回滚动字幕（现已改为单向）
   marqueeRight:"【有114514个扫福瑞与其战斗失败】", // 逆向滚动字幕
   speakText:   "扫福瑞",                  // 点“大声朗读”朗读的内容
 
@@ -471,8 +472,29 @@ const CONFIG = {
   $("mainTitle").textContent    = CONFIG.title;
   $("subTitle").textContent     = CONFIG.subTitle;
   $("bigName").textContent      = CONFIG.bigName;
-  $("marqueeAlt").textContent   = CONFIG.marqueeAlt + "　　" + CONFIG.marqueeAlt;
-  $("marqueeRight").textContent = CONFIG.marqueeRight + "　　" + CONFIG.marqueeRight;
+  
+  // 字幕内容加倍，让滚动的衔接更流畅
+  $("marqueeAlt").textContent   = CONFIG.marqueeAlt + "　　" + CONFIG.marqueeAlt + "　　" + CONFIG.marqueeAlt;
+  $("marqueeRight").textContent = CONFIG.marqueeRight + "　　" + CONFIG.marqueeRight + "　　" + CONFIG.marqueeRight;
+
+  // ★ 动态调整字幕速度，解决大小屏速度割裂的问题
+  function fixMarqueeSpeed() {
+    // 根据屏幕宽度动态计算滚动速度（宽度越大，像素增加越快）
+    // 这能让不论多大的屏幕，横穿过去的时间都差不多
+    const speed = Math.max(2, Math.floor(window.innerWidth / 80)); 
+    
+    // 第一行：强制单向向左滚动
+    const alt = $("marqueeAlt");
+    alt.setAttribute("behavior", "scroll");
+    alt.setAttribute("scrollamount", speed);
+    
+    // 第二行：向右滚动，速度保持一致
+    const right = $("marqueeRight");
+    right.setAttribute("direction", "right");
+    right.setAttribute("scrollamount", speed);
+  }
+  fixMarqueeSpeed();
+  window.addEventListener("resize", fixMarqueeSpeed);
 
   // 大标题自适应
   function autoFit(el, minPx) {
