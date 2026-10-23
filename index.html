@@ -6,20 +6,26 @@
 <title>【占位·网页标题】</title>
 <!--
 ================================================================
-   人工二改，AI第一次编写 别忘了修改上方title！！！
-   2. 滚到最底部 <script> 里的 CONFIG 对象 !!!194行以下!!!
+   部署到 GitHub Pages：
+   1. index.html 放仓库根目录
+   2. MP3 也放仓库根目录（或子目录），文件名全小写
+   3. 滚到最底部 CONFIG 的 audioSrc 填相对路径，例如 "music.mp3"
+   4. 不要以 / 开头，不要填 http:// 链接
 ================================================================
 -->
 <style>
 /* ============ 0. 全局：越花越乱越带劲 ============ */
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
 body{
   font-family:"Comic Sans MS","华文琥珀","华文彩云","微软雅黑",sans-serif;
   background-color:#000;color:#0f0;
   overflow-x:hidden;cursor:crosshair;
   padding:0 8px 160px;
   animation:bgPulse 7s linear infinite;
+  overflow-wrap:break-word;
+  word-break:break-word;
 }
 @keyframes bgPulse{
   0%{background-color:#000}20%{background-color:#2a0033}40%{background-color:#003322}
@@ -71,6 +77,10 @@ body{
 }
 .giant{font-size:clamp(40px,13vw,140px);}
 .lime{color:#0f0}.magenta{color:#f0f}.cyan{color:#0ff}.yellow{color:#ff0}
+#mainTitle,#subTitle,#bigName{
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
 /* ============ 2. 滚动字幕（土味核心） ============ */
 marquee{
   display:block;margin:12px 0;padding:8px 0;
@@ -103,7 +113,8 @@ marquee{
 .btn:active{transform:translate(4px,4px);box-shadow:none;}
 /* ============ 5. 弹窗广告 ============ */
 .ad{
-  position:fixed;z-index:60;width:min(290px,72vw);padding:10px 12px 14px;
+  position:fixed;z-index:60;width:min(290px,72vw);
+  padding:30px 12px 14px;
   background:#ff0;color:#000;border:6px ridge #f00;
   font-weight:900;font-size:15px;text-align:center;
   box-shadow:8px 8px 0 rgba(0,0,0,.6);
@@ -114,9 +125,11 @@ marquee{
   to{transform:rotate(2.5deg) scale(1.03)}
 }
 .ad .close{
-  position:absolute;top:-16px;right:-16px;width:34px;height:34px;border-radius:50%;
-  border:4px solid #000;background:#f00;color:#fff;font-weight:900;font-size:16px;
-  line-height:26px;text-align:center;cursor:pointer;
+  position:absolute;top:6px;right:6px;
+  width:26px;height:26px;border-radius:50%;
+  border:3px solid #000;background:#f00;color:#fff;
+  font-weight:900;font-size:14px;line-height:20px;text-align:center;
+  cursor:pointer;z-index:2;
 }
 /* ============ 6. 假计数器 & 施工条 ============ */
 .counter{
@@ -153,6 +166,119 @@ marquee{
 }
 .help code{background:#222;color:#ff0;padding:1px 5px;}
 footer{text-align:center;color:#888;font-size:13px;margin:40px 0 0;}
+
+/* ============ 9. 响应式自动排版 ============ */
+.wrap{
+  max-width:1000px;
+  margin-left:auto;margin-right:auto;
+}
+
+.btn-row{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  gap:clamp(6px,1.5vw,12px);
+  margin:clamp(16px,4vw,28px) auto;
+  max-width:1000px;
+  padding:0 clamp(4px,1.5vw,16px);
+}
+.btn-row .btn{
+  margin:0;
+  flex:1 1 auto;
+  min-width:0;
+  max-width:100%;
+  white-space:normal;
+  word-break:break-word;
+}
+
+.ad{
+  max-width:calc(100vw - 24px);
+}
+
+body{
+  padding-left:max(8px, env(safe-area-inset-left));
+  padding-right:max(8px, env(safe-area-inset-right));
+  padding-bottom:calc(120px + env(safe-area-inset-bottom));
+}
+
+@media (max-width:768px){
+  .card{padding:14px 12px;margin:20px auto;}
+  .help{padding:12px 14px;}
+}
+
+@media (max-width:480px){
+  .rainbow{
+    letter-spacing:0;
+    -webkit-text-stroke:1px #000;
+    font-size:clamp(22px,8.5vw,48px);
+  }
+  .giant{font-size:clamp(28px,10.5vw,56px);}
+  .wordart{
+    text-shadow:1px 1px 0 #f0f,2px 2px 0 #0ff,3px 3px 0 #000;
+    transform:skew(-6deg) rotate(-1.5deg);
+  }
+  .card,
+  .card:nth-of-type(even){
+    transform:none;
+    padding:12px 10px;
+    margin:16px auto;
+    border-width:5px;
+    box-shadow:4px 4px 0 #f0f,-4px -4px 0 #ff0;
+    width:calc(100% - 4px);
+  }
+  .card p{line-height:1.7;}
+  .tagline{font-size:clamp(15px,5vw,22px);}
+  .counter{font-size:clamp(16px,6vw,24px);letter-spacing:1px;}
+  .help{padding:10px 12px;font-size:13px;}
+  footer{font-size:11px;padding:0 8px;line-height:1.6;}
+  .btn-row{gap:6px;padding:0 4px;}
+  .btn{
+    font-size:clamp(12px,3.6vw,16px);
+    padding:10px 12px;
+    border-width:4px;
+    box-shadow:4px 4px 0 #00f;
+  }
+  .ad{
+    padding:28px 10px 10px;
+    font-size:13px;
+  }
+  .ad .close{
+    width:26px;height:26px;
+    line-height:20px;
+    font-size:14px;
+  }
+  .toast{
+    padding:10px 12px;
+    bottom:max(16px, env(safe-area-inset-bottom));
+    max-width:92vw;
+  }
+  #tile{background-size:40px 40px,60px 60px,28px 28px;}
+  marquee{font-size:clamp(14px,4vw,22px);}
+}
+
+@media (max-width:340px){
+  .btn{font-size:12px;padding:8px 10px;border-width:3px;}
+  marquee{font-size:13px;}
+  .rainbow{font-size:clamp(20px,8vw,36px);}
+  .giant{font-size:clamp(24px,9.5vw,44px);}
+  .counter{font-size:15px;letter-spacing:0;}
+}
+
+@media (max-height:480px) and (orientation:landscape){
+  body{padding-bottom:calc(80px + env(safe-area-inset-bottom));}
+  .rainbow{margin:6px 0;}
+  .card{margin:12px auto;padding:10px;}
+  marquee{margin:6px 0;padding:4px 0;}
+  .btn-row{margin:10px auto;}
+}
+
+@media (min-width:1200px){
+  .card{max-width:860px;}
+  .rainbow{letter-spacing:4px;}
+}
+
+@media (hover:none),(pointer:coarse){
+  .trail{font-size:16px;}
+  .burst{font-size:22px;}
+}
 </style>
 </head>
 <body>
@@ -175,7 +301,7 @@ footer{text-align:center;color:#888;font-size:13px;margin:40px 0 0;}
 <div id="cards"></div>
 
 <!-- ===== 按钮区 ===== -->
-<div style="text-align:center;margin:24px 0">
+<div class="btn-row">
   <button class="btn" id="btnSpeak">🔊 大声朗读</button>
   <button class="btn" id="btnBgm">🎵 播放土味BGM</button>
   <button class="btn" id="btnMore">💥 再来一句</button>
@@ -184,7 +310,7 @@ footer{text-align:center;color:#888;font-size:13px;margin:40px 0 0;}
 </div>
 
 <!-- ===== 假计数器 / 施工中 ===== -->
-<div style="text-align:center;margin:18px 0">
+<div class="wrap" style="text-align:center;margin:18px 0">
   <span class="yellow blink">本页总访问量：</span>
   <span class="counter" id="counter">0000283</span>
   <div class="blink magenta" style="margin-top:6px;font-weight:900">🦺 本网页正在施工中 · 请勿靠近 🦺</div>
@@ -193,7 +319,7 @@ footer{text-align:center;color:#888;font-size:13px;margin:40px 0 0;}
 
 <!-- ===== CHG ABOVE ===== -->
 
-<footer>© 【2026】 【同性恋研究院】 · 本页最佳浏览分辨率 800×600 · 建议使用 IE6 观看</footer>
+<footer class="wrap">© 【2026】 【同性恋研究院】 · 本页最佳浏览分辨率 800×600 · 建议使用 IE6 观看</footer>
 <script>
 /* ==================================================================
    ★★★ 只改这一块就行：所有文案都在 CONFIG 里 ★★★
@@ -208,6 +334,18 @@ const CONFIG = {
   marqueeRight:"【有114514个扫福瑞与其战斗失败】",
   speakText:   "扫福瑞",
 
+  // ★ 自定义 BGM（由原来的“播放土味BGM”按钮控制）
+  // GitHub Pages 用法：
+  //   - MP3 与 index.html 同目录，填 "music.mp3"
+  //   - 在子目录 audio 下，填 "audio/music.mp3"
+  //   - 不要以 / 开头，不要填 http:// 链接
+  //   - 文件名全小写，别带空格、括号、#、?
+  //   - 留空则继续使用 Web Audio 土味音调
+  //   - 填数组可顺序播放，例如 ["a.mp3", "b.mp3"]
+  audioSrc:    "audio/music.mp3",
+  audioVolume: 0.8,     // 0 ~ 1
+  audioLoop:   false,   // 单曲循环（数组时只循环当前这首）
+
   // 歪卡片：一条 = 一张卡
   lines: [
     "【据不愿透露姓名的人士透露……】",
@@ -215,8 +353,7 @@ const CONFIG = {
     "【根据他的朋友透露】",
     "【根据武昭宇的群U透露】",
     "【根据猫咖工作人员说明】"
-  ], 
-   // 👇 加上这个数组，你想写多少条写多少条
+  ],
   footers: [
     "【武昭宇是同性恋】",
     "【很帅很嫩很乖】",
@@ -246,7 +383,10 @@ const CONFIG = {
     cleaned:  "清屏完成，风格依旧相当野生。",
     musicOn:  "土味 BGM 已启动，音量请自行忍受。",
     musicOff: "BGM 已停，世界安静了。",
-    musicFail:"示你的浏览器不肯出声（AudioContext 不可用）。"
+    musicFail:"提示你的浏览器不肯出声（AudioContext 不可用）。",
+    audioOn:  "自定义 BGM 已启动。",
+    audioOff: "自定义 BGM 已暂停。",
+    audioError:"音频加载失败，已回退到土味 BGM。检查 audioSrc 路径与文件名大小写。"
   },
 
   bgmNotes: [523, 659, 784, 659], // 土味 BGM 的音高（Hz），随便改
@@ -261,6 +401,10 @@ const CONFIG = {
   const pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
   const pad = function (n) { return String(n).padStart(6, "0"); };
 
+  const isCoarse = window.matchMedia("(pointer:coarse)").matches;
+  const TRAIL_GAP = isCoarse ? 120 : 60;
+  const BURST_COUNT = isCoarse ? 6 : 10;
+
   /* ---------- 1. 把 CONFIG 的字填进页面 ---------- */
   document.title = CONFIG.title.replace(/[【】]/g, "");
   $("mainTitle").textContent    = CONFIG.title;
@@ -268,6 +412,38 @@ const CONFIG = {
   $("bigName").textContent      = CONFIG.bigName;
   $("marqueeAlt").textContent   = CONFIG.marqueeAlt + "　　" + CONFIG.marqueeAlt;
   $("marqueeRight").textContent = CONFIG.marqueeRight + "　　" + CONFIG.marqueeRight;
+
+  /* ---------- 1b. 大标题自适应 ---------- */
+  function autoFit(el, minPx) {
+    el.style.whiteSpace = "nowrap";
+    el.style.fontSize = "";
+    let size = parseFloat(getComputedStyle(el).fontSize) || 16;
+    const min = minPx || 16;
+    let guard = 0;
+    while (size > min && el.scrollWidth > el.clientWidth + 0.5 && guard++ < 400) {
+      size -= 1;
+      el.style.fontSize = size + "px";
+    }
+    if (el.scrollWidth > el.clientWidth + 0.5) {
+      el.style.whiteSpace = "normal";
+      el.style.fontSize = min + "px";
+    }
+  }
+  function fitTitles() {
+    autoFit($("mainTitle"), 22);
+    autoFit($("subTitle"),  14);
+    autoFit($("bigName"),   20);
+  }
+  fitTitles();
+
+  let fitTimer = null;
+  window.addEventListener("resize", function () {
+    clearTimeout(fitTimer);
+    fitTimer = setTimeout(fitTitles, 120);
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fitTitles);
+  }
 
   /* ---------- 2. 生成歪卡片 ---------- */
   const cardBox = $("cards");
@@ -305,7 +481,7 @@ const CONFIG = {
   let lastTrail = 0;
   document.addEventListener("pointermove", function (e) {
     const now = Date.now();
-    if (now - lastTrail < 60) { return; }
+    if (now - lastTrail < TRAIL_GAP) { return; }
     lastTrail = now;
     const s = document.createElement("span");
     s.className = "trail";
@@ -318,7 +494,7 @@ const CONFIG = {
 
   /* ---------- 5. 点击位置爆炸 ---------- */
   document.addEventListener("click", function (e) {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < BURST_COUNT; i++) {
       const s = document.createElement("span");
       s.className = "burst";
       s.textContent = pick(CONFIG.emojis);
@@ -355,24 +531,50 @@ const CONFIG = {
     toastTimer = setTimeout(function () { el.remove(); }, 2400);
   }
 
-  /* ---------- 7. 弹窗广告（关闭按钮会先溜一下） ---------- */
+  /* ---------- 7. 弹窗广告 ---------- */
   let adSeed = 0;
+
   function adSpot(i) {
-    const W = Math.max(window.innerWidth - 320, 20);
-    const H = Math.max(window.innerHeight - 200, 80);
+    const margin = 8;
+    const adW = Math.min(290, window.innerWidth * 0.72) + 20;
+    const adH = Math.min(180, window.innerHeight * 0.35);
+
+    const maxX = Math.max(margin, window.innerWidth - adW - margin);
+    const maxY = Math.max(margin + 40, window.innerHeight - adH - margin);
+
     const spots = [
-      { x: 20, y: 90 },
-      { x: W, y: 140 },
-      { x: W / 2 - 140, y: H },
-      { x: Math.max(W / 2 - 140, 20), y: 70 },
-      { x: W - 40, y: H - 40 }
+      { x: margin,   y: margin + 40 },
+      { x: maxX,     y: margin + 60 },
+      { x: maxX / 2, y: maxY },
+      { x: maxX / 2, y: margin + 20 },
+      { x: maxX,     y: maxY }
     ];
     const s = spots[i % spots.length];
     return {
-      x: Math.max(8, Math.min(s.x, Math.max(window.innerWidth - 300, 8))),
-      y: Math.max(60, Math.min(s.y, Math.max(window.innerHeight - 170, 80)))
+      x: Math.max(margin, Math.min(s.x, maxX)),
+      y: Math.max(margin + 40, Math.min(s.y, maxY))
     };
   }
+
+  function clampAd(ad) {
+    const margin = 8;
+    const rect = ad.getBoundingClientRect();
+    let left = parseFloat(ad.style.left) || 0;
+    let top = parseFloat(ad.style.top) || 0;
+
+    if (left + rect.width > window.innerWidth - margin) {
+      left = window.innerWidth - rect.width - margin;
+    }
+    if (top + rect.height > window.innerHeight - margin) {
+      top = window.innerHeight - rect.height - margin;
+    }
+    if (left < margin) { left = margin; }
+    if (top < margin) { top = margin; }
+
+    ad.style.left = left + "px";
+    ad.style.top = top + "px";
+  }
+
   function spawnAd(text) {
     const ad = document.createElement("div");
     ad.className = "ad";
@@ -386,15 +588,16 @@ const CONFIG = {
     let dodged = false;
     close.addEventListener("click", function (ev) {
       ev.stopPropagation();
-      if (!dodged) {                       // 第一次点：溜走
+      if (!dodged) {
         dodged = true;
         const s2 = adSpot(Math.floor(Math.random() * 5));
         ad.style.left = s2.x + "px";
         ad.style.top = s2.y + "px";
         close.textContent = "再点";
+        requestAnimationFrame(function () { clampAd(ad); });
         return;
       }
-      ad.remove();                         // 第二次点：真关
+      ad.remove();
       toast(CONFIG.tips.adClosed);
     });
 
@@ -410,9 +613,17 @@ const CONFIG = {
     ad.appendChild(line1);
     ad.appendChild(line2);
     document.body.appendChild(ad);
+
+    requestAnimationFrame(function () { clampAd(ad); });
     return ad;
   }
-  // 打开页面 1.2 秒 / 3 秒后各送一个广告
+
+  window.addEventListener("resize", function () {
+    document.querySelectorAll(".ad").forEach(function (ad) {
+      clampAd(ad);
+    });
+  });
+
   setTimeout(function () { spawnAd(CONFIG.ads[0]); }, 1200);
   setTimeout(function () { spawnAd(pick(CONFIG.ads)); }, 3000);
 
@@ -433,28 +644,45 @@ const CONFIG = {
 
   $("btnMore").addEventListener("click", function () { toast(pick(CONFIG.pool)); });
   $("btnAd").addEventListener("click", function () { spawnAd(pick(CONFIG.ads)); });
-  $("btnReset").addEventListener("click", function () {
-    // 延迟到本次点击的爆炸粒子生成之后再清，才能真的清干净
-    setTimeout(function () {
-      document.querySelectorAll(".ad,.toast,.burst,.trail").forEach(function (n) {
-        n.remove();
-      });
-      toast(CONFIG.tips.cleaned);
-    }, 0);
-  });
 
-  /* ---------- 9. 土味 BGM（Web Audio，必须点按钮才会响） ---------- */
+  /* ---------- 9. BGM：优先自定义 MP3，未配置则回退土味音调 ---------- */
+  const btnBgm = $("btnBgm");
+
+  const audioList = (function () {
+    const s = CONFIG.audioSrc;
+    if (!s) return [];
+    return (Array.isArray(s) ? s : [s]).filter(Boolean);
+  })();
+  const hasCustomAudio = audioList.length > 0;
+
+  const LABEL_PLAY_CUSTOM = "🎵 播放自定义BGM";
+  const LABEL_STOP_CUSTOM = "🔇 关掉自定义BGM";
+  const LABEL_PLAY_TONE   = "🎵 播放土味BGM";
+  const LABEL_STOP_TONE   = "🔇 关掉土味BGM";
+
+  btnBgm.textContent = hasCustomAudio ? LABEL_PLAY_CUSTOM : LABEL_PLAY_TONE;
+
   let actx = null;
   let bgmTimer = null;
-  const btnBgm = $("btnBgm");
-  btnBgm.addEventListener("click", function () {
-    if (bgmTimer) {                        // 再点一次 = 关掉
+  let customAudio = null;
+  let audioIdx = 0;
+
+  function setAudioSrc() {
+    // GitHub Pages 上文件名带空格/中文时，必须 encodeURI，否则 404
+    customAudio.src = encodeURI(audioList[audioIdx]);
+  }
+
+  function stopTone() {
+    if (bgmTimer) {
       clearInterval(bgmTimer);
       bgmTimer = null;
-      btnBgm.textContent = "🎵 播放土味BGM";
-      toast(CONFIG.tips.musicOff);
-      return;
     }
+    if (!customAudio || customAudio.paused) {
+      btnBgm.textContent = hasCustomAudio ? LABEL_PLAY_CUSTOM : LABEL_PLAY_TONE;
+    }
+  }
+
+  function playTone() {
     try {
       actx = actx || new (window.AudioContext || window.webkitAudioContext)();
       if (actx.state === "suspended") { actx.resume(); }
@@ -473,11 +701,92 @@ const CONFIG = {
       };
       play();
       bgmTimer = setInterval(play, 260);
-      btnBgm.textContent = "🔇 关掉土味BGM";
+      btnBgm.textContent = LABEL_STOP_TONE;
       toast(CONFIG.tips.musicOn);
     } catch (err) {
       toast(CONFIG.tips.musicFail);
     }
+  }
+
+  function initCustomAudio() {
+    customAudio = new Audio();
+    customAudio.preload = "metadata";
+    customAudio.volume = typeof CONFIG.audioVolume === "number"
+      ? Math.max(0, Math.min(1, CONFIG.audioVolume))
+      : 0.8;
+    customAudio.loop = !!CONFIG.audioLoop && audioList.length === 1;
+
+    customAudio.addEventListener("play", function () {
+      stopTone(); // 和土味音调互斥
+      btnBgm.textContent = LABEL_STOP_CUSTOM;
+    });
+    customAudio.addEventListener("pause", function () {
+      btnBgm.textContent = LABEL_PLAY_CUSTOM;
+    });
+    customAudio.addEventListener("ended", function () {
+      if (audioList.length > 1 && !CONFIG.audioLoop) {
+        audioIdx = (audioIdx + 1) % audioList.length;
+        setAudioSrc();
+        const p = customAudio.play();
+        if (p && p.catch) { p.catch(function () {}); }
+      } else {
+        btnBgm.textContent = LABEL_PLAY_CUSTOM;
+      }
+    });
+    customAudio.addEventListener("error", function () {
+      toast(CONFIG.tips.audioError);
+      customAudio = null;
+      // 回退到土味音调，避免“点了没反应”
+      playTone();
+    });
+  }
+
+  function stopAllBgm() {
+    stopTone();
+    if (customAudio && !customAudio.paused) {
+      customAudio.pause();
+    }
+  }
+
+  btnBgm.addEventListener("click", function () {
+    if (hasCustomAudio) {
+      if (!customAudio) {
+        initCustomAudio();
+      }
+      if (customAudio.paused) {
+        if (!customAudio.getAttribute("src")) {
+          audioIdx = Math.min(audioIdx, audioList.length - 1);
+          setAudioSrc();
+        }
+        const p = customAudio.play();
+        if (p && p.catch) {
+          p.catch(function () {
+            btnBgm.textContent = LABEL_PLAY_CUSTOM;
+          });
+        }
+      } else {
+        customAudio.pause();
+      }
+    } else {
+      // 没配置 MP3：沿用原来的土味音调开关
+      if (bgmTimer) {
+        stopTone();
+        toast(CONFIG.tips.musicOff);
+      } else {
+        playTone();
+      }
+    }
+  });
+
+  /* ---------- 10. 清屏：顺手停掉 BGM ---------- */
+  $("btnReset").addEventListener("click", function () {
+    stopAllBgm();
+    setTimeout(function () {
+      document.querySelectorAll(".ad,.toast,.burst,.trail").forEach(function (n) {
+        n.remove();
+      });
+      toast(CONFIG.tips.cleaned);
+    }, 0);
   });
 })();
 </script>
