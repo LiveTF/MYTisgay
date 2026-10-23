@@ -14,18 +14,24 @@ body{
   background-color:#000;color:#0f0;
   overflow-x:hidden;cursor:crosshair;
   padding:0 8px 160px;
+  
+  /* 【特效调整】：7s 是背景颜色循环变色的速度，数字越小闪得越快 */
   animation:bgPulse 7s linear infinite; 
+  
   overflow-wrap:break-word;
   word-break:break-word;
 }
 
+/* 【特效调整】：这里控制背景变色的具体颜色，可换成你喜欢的色号 */
 @keyframes bgPulse{
   0%{background-color:#000}20%{background-color:#2a0033}40%{background-color:#003322}
   60%{background-color:#332200}80%{background-color:#00223a}100%{background-color:#000}
 }
 
+/* 会动的"泥点子"背景 */
 #tile{
-  position:fixed;inset:-10%;z-index:-1;opacity:.22;
+  position:fixed;inset:-10%;z-index:-1;
+  opacity:.22; /* 【特效调整】：背景泥点子的不透明度，0~1，越小越暗 */
   pointer-events:none;
   background-image:
     radial-gradient(#ff00ff 3px,transparent 4px),
@@ -33,19 +39,25 @@ body{
     radial-gradient(#ffff00 2px,transparent 3px);
   background-size:60px 60px,90px 90px,40px 40px;
   background-position:0 0,30px 30px,15px 5px;
+  
+  /* 【特效调整】：3s 是泥点子背景滚动的速度，数字越小滚得越快 */
   animation:tileMove 3s linear infinite;
 }
 @keyframes tileMove{to{background-position:60px 60px,120px 120px,55px 45px}}
 
 /* ============ 1. 文字特效 ============ */
 .rainbow{
+  /* 【特效调整】：.6s 是主标题变色速度，.15s 是主标题抖动速度 */
   animation:rainbow .6s steps(1) infinite, shake .15s infinite;
-  font-size:clamp(28px,7vw,72px);
+  
+  font-size:clamp(28px,7vw,72px); /* 主标题基础大小 */
   font-weight:900;line-height:1.15;
   text-align:center;margin:14px 0;letter-spacing:2px;
-  -webkit-text-stroke:2px #000;
+  
+  -webkit-text-stroke:2px #000; /* 【特效调整】：主标题描边粗细，改成 0px 就是不要描边 */
 }
 @keyframes rainbow{
+  /* 【特效调整】：这里的 text-shadow:4px 4px 0 是文字的彩色阴影厚度，数字越大越粗犷 */
   0%{color:#f00;text-shadow:4px 4px 0 #0ff}
   17%{color:#ff0;text-shadow:4px 4px 0 #f0f}
   33%{color:#0f0;text-shadow:4px 4px 0 #00f}
@@ -59,6 +71,7 @@ body{
 
 .shake{display:inline-block;animation:shake .16s infinite;}
 @keyframes shake{
+  /* 【特效调整】：这里控制标题/文字的抖动幅度，translate 是位移，rotate 是旋转角度 */
   0%{transform:translate(0,0) rotate(-1deg)}
   25%{transform:translate(2px,-2px) rotate(1.5deg)}
   50%{transform:translate(-2px,1px) rotate(-2deg)}
@@ -69,12 +82,16 @@ body{
 .wordart{
   display:inline-block;font-size:clamp(22px,5vw,44px);font-weight:900;
   color:#ff0;
+  
+  /* 【特效调整】：skew(-8deg) 是文字向左倾斜的角度，rotate(-2deg) 是整体旋转角度 */
   transform:skew(-8deg) rotate(-2deg);
+  
+  /* 【特效调整】：文字的三层彩色阴影，数字越大阴影越厚 */
   text-shadow:2px 2px 0 #f0f,4px 4px 0 #0ff,6px 6px 0 #000;
   padding:4px 10px;
 }
 
-.giant{font-size:clamp(40px,13vw,140px);}
+.giant{font-size:clamp(40px,13vw,140px);} /* 超大字体的尺寸 */
 .lime{color:#0f0}.magenta{color:#f0f}.cyan{color:#0ff}.yellow{color:#ff0}
 #mainTitle,#subTitle,#bigName{
   max-width:100%;
@@ -95,10 +112,13 @@ marquee{
   background:repeating-linear-gradient(45deg,#111 0 12px,#1a1a1a 12px 24px);
   border:8px double #0ff;
   box-shadow:10px 10px 0 #f0f,-10px -10px 0 #ff0;
+  
+  /* 【特效调整】：rotate(-1.2deg) 是奇数卡片的倾斜角度 */
   transform:rotate(-1.2deg);
   text-align:center;
 }
 .card:nth-of-type(even){
+  /* 【特效调整】：rotate(1.6deg) 是偶数卡片的倾斜角度，和上面的角度相反 */
   transform:rotate(1.6deg);
   border-color:#ff0;
   box-shadow:-10px 10px 0 #0f0,10px -10px 0 #f00;
@@ -112,6 +132,8 @@ marquee{
   font-family:inherit;font-size:clamp(15px,2.6vw,22px);font-weight:900;
   color:#000;background:#ff0;border:5px outset #f0f;
   cursor:pointer;box-shadow:6px 6px 0 #00f;
+  
+  /* 【特效调整】：.5s 是按钮默认抖动的速度，如果觉得太晃眼可以去掉这个属性 */
   animation:shake .5s infinite;
 }
 .btn:hover{background:#0ff;box-shadow:2px 2px 0 #f00;animation:none;}
@@ -124,9 +146,12 @@ marquee{
   background:#ff0;color:#000;border:6px ridge #f00;
   font-weight:900;font-size:15px;text-align:center;
   box-shadow:8px 8px 0 rgba(0,0,0,.6);
+  
+  /* 【特效调整】：.9s 是广告窗口持续扭动呼吸的速度 */
   animation:adJiggle .9s infinite alternate;
 }
 @keyframes adJiggle{
+  /* 【特效调整】：广告扭动的幅度，2deg / 2.5deg 是旋转，1.03 是放大的比例 */
   from{transform:rotate(-2deg) scale(1)}
   to{transform:rotate(2.5deg) scale(1.03)}
 }
@@ -148,6 +173,8 @@ marquee{
   height:26px;border:4px solid #000;
   background:repeating-linear-gradient(45deg,#ff0 0 18px,#000 18px 36px);
   background-size:51px 51px;
+  
+  /* 【特效调整】：.8s 是黄黑警示条滚动的速度 */
   animation:poleMove .8s linear infinite;
 }
 @keyframes poleMove{to{background-position:51px 0}}
@@ -155,6 +182,7 @@ marquee{
 /* ============ 7. 粒子 & 提示条 ============ */
 .trail{
   position:fixed;z-index:99;pointer-events:none;font-size:22px;
+  /* 【特效调整】：.9s 是鼠标拖尾表情消失的动画时间 */
   animation:trailFade .9s linear forwards;
 }
 @keyframes trailFade{
@@ -167,12 +195,9 @@ marquee{
   border:6px dashed #f0f;font-weight:900;
   font-size:clamp(14px,2.4vw,20px);text-align:center;
 }
-
-/* 页脚 */
 footer{text-align:center;color:#888;font-size:13px;margin:40px 0 0;}
 
-/* ============ 8. 响应式排版 ============ */
-/* 按钮行保留原来的完美自适应布局 */
+/* ============ 8. 响应式排版修复 ============ */
 .btn-row{
   display:flex;
   flex-wrap:wrap;
@@ -291,7 +316,7 @@ body{
 </div>
 
 <!-- ===== 左下角修复区 ===== -->
-<!-- 这里使用 Flex 强制垂直和水平居中，绝不会再跑到左边去 -->
+<!-- 用 Flex 强制垂直和水平居中，彻底解决跑偏靠左的问题 -->
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin-top: 18px; margin-bottom: 18px; text-align: center;">
   <div>
     <span class="yellow blink">本页总访问量：</span>
@@ -301,25 +326,27 @@ body{
   <div class="pole" style="width: 100%; max-width: 900px; margin: 8px auto;"></div>
 </div>
 
-<footer>© 【2026】 【同性恋研究院】 · 本页最佳浏览分辨率 800×600 · 建议使用 IE6 观看</footer>
+<footer>© 【2026】 【LGBT研究院🏳️‍🌈】 · 本页最佳浏览分辨率 800×600 · 建议使用 IE6 观看</footer>
 
 <script>
 // ===============================================================
 // ★★★ 只改这一块就行：所有文案、数字、设定都在 CONFIG 里 ★★★
 // ===============================================================
 const CONFIG = {
-  title:       "【震 惊 全 网】",          
-  subTitle:    "【超级福瑞控武昭宇】",      
-  bigName:     "【武昭宇居然是同性恋】",    
-  marqueeAlt:  "【隐藏了14年终于被发现】",  
-  marqueeRight:"【有114514个扫福瑞与其战斗失败】", 
-  speakText:   "扫福瑞",                  
+  title:       "【震 惊 全 网】",          // 网页大标题
+  subTitle:    "【超级福瑞控武昭宇】",      // 副标题
+  bigName:     "【武昭宇居然是同性恋】",    // 中间巨大的名字
+  marqueeAlt:  "【隐藏了14年终于被发现】",  // 来回滚动字幕
+  marqueeRight:"【有114514个扫福瑞与其战斗失败】", // 逆向滚动字幕
+  speakText:   "扫福瑞",                  // 点“大声朗读”朗读的内容
 
   // 自定义 BGM 音频（已经为你填入 audio/music.mp3）
+  // 部署在 GitHub 的话填 "music.mp3"，不要以 / 开头。留空则播放默认土味电子音。
   audioSrc:    "audio/music.mp3", 
-  audioVolume: 0.8,   
-  audioLoop:   false, 
+  audioVolume: 0.8,   // 音量 0 ~ 1
+  audioLoop:   false, // 是否循环播放
 
+  // 卡片内容：你想写多少条就写多少条，逗号别丢
   lines: [
     "【据不愿透露姓名的人士透露……】",
     "【根据有武昭宇 Blued好友的透露】",
@@ -327,6 +354,7 @@ const CONFIG = {
     "【根据武昭宇的群U透露】",
     "【根据猫咖工作人员说明】"
   ],
+  // 对应上面的卡片底部的黄字
   footers: [
     "【武昭宇是同性恋】",
     "【很帅很嫩很乖】",
@@ -334,6 +362,7 @@ const CONFIG = {
     "【武昭宇去KTV抽因】",
     "【武昭宇是猫条】"
   ],
+  // 点“再来一句”随机吐出来的短句池
   pool: [
     "【武昭宇很嫩很肥美】",
     "【帅呆了】",
@@ -341,12 +370,15 @@ const CONFIG = {
     "【很舒服】",
     "【平板支撑第9178天】"
   ],
+  // 弹窗广告的文案
   ads: [
     "【点击就送屠龙宝刀】",
     "【开局一条狗，装备全靠捡】"
   ],
-  emojis: ["💥", "🌈", "⭐", "🐟", "🍜", "👑", "❗"],
+  // 鼠标拖尾 / 点击爆炸用的表情
+  emojis: ["💥", "🌈", "⭐", "🐟", "🏳️‍🌈", "👑", "❗"],
 
+  // 底部提示条文字
   tips: {
     adClosed: "广告已关闭，但这份粗糙永存。",
     cleaned:  "清屏完成，风格依旧相当野生。",
@@ -356,8 +388,8 @@ const CONFIG = {
     audioError:"音频加载失败，已回退到土味 BGM。检查路径与大小写。"
   },
 
-  bgmNotes: [523, 659, 784, 659], 
-  visitorStart: 12345             
+  bgmNotes: [523, 659, 784, 659], // 土味 BGM 的音高（Hz），随便改
+  visitorStart: 12345             // 假访问量起始值
 };
 
 // ===============================================================
@@ -368,10 +400,14 @@ const CONFIG = {
   const pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
   const pad = function (n) { return String(n).padStart(6, "0"); };
 
+  // 【特效调整】：鼠标/手指滑动时产生拖尾的灵敏度（数值越大，生成得越稀疏）
   const isCoarse = window.matchMedia("(pointer:coarse)").matches;
-  const TRAIL_GAP = isCoarse ? 120 : 60; 
-  const BURST_COUNT = isCoarse ? 6 : 10; 
+  const TRAIL_GAP = isCoarse ? 120 : 60; // 手机上是120，电脑上是60
+  
+  // 【特效调整】：每次点击爆炸产生的表情数量
+  const BURST_COUNT = isCoarse ? 6 : 10; // 手机爆炸6个，电脑爆炸10个
 
+  // 填字
   document.title = CONFIG.title.replace(/[【】]/g, "");
   $("mainTitle").textContent    = CONFIG.title;
   $("subTitle").textContent     = CONFIG.subTitle;
@@ -379,6 +415,7 @@ const CONFIG = {
   $("marqueeAlt").textContent   = CONFIG.marqueeAlt + "　　" + CONFIG.marqueeAlt;
   $("marqueeRight").textContent = CONFIG.marqueeRight + "　　" + CONFIG.marqueeRight;
 
+  // 大标题自适应
   function autoFit(el, minPx) {
     el.style.whiteSpace = "nowrap";
     el.style.fontSize = "";
@@ -410,6 +447,7 @@ const CONFIG = {
     document.fonts.ready.then(fitTitles);
   }
 
+  // 生成卡片
   const cardBox = $("cards");
   CONFIG.lines.forEach(function (text, i) {
     const card = document.createElement("div");
@@ -432,14 +470,17 @@ const CONFIG = {
     cardBox.appendChild(card);
   });
 
+  // 假计数器
   let hits = CONFIG.visitorStart;
   const counter = $("counter");
   counter.textContent = pad(hits);
+  // 【功能调整】：这里控制访问量增加的速度，800 是 0.8 秒加一次，改小加得快
   setInterval(function () {
     hits += 1 + Math.floor(Math.random() * 7);
     counter.textContent = pad(hits);
   }, 800);
 
+  // 鼠标拖尾
   let lastTrail = 0;
   document.addEventListener("pointermove", function (e) {
     const now = Date.now();
@@ -451,9 +492,11 @@ const CONFIG = {
     s.style.left = (e.clientX - 10) + "px";
     s.style.top = (e.clientY - 10) + "px";
     document.body.appendChild(s);
+    // 【功能调整】：900 是拖尾表情在屏幕上的存活时间（毫秒），改大消失得慢
     setTimeout(function () { s.remove(); }, 900);
   });
 
+  // 点击爆炸
   document.addEventListener("click", function (e) {
     for (let i = 0; i < BURST_COUNT; i++) {
       const s = document.createElement("span");
@@ -462,6 +505,8 @@ const CONFIG = {
       s.style.left = (e.clientX - 15) + "px";
       s.style.top = (e.clientY - 15) + "px";
       const ang = Math.random() * Math.PI * 2;
+      
+      // 【特效调整】：dist 控制爆炸时飞溅的散开距离（60~220像素）
       const dist = 60 + Math.random() * 160; 
       
       s.animate([
@@ -472,13 +517,15 @@ const CONFIG = {
                      (Math.random() * 720 - 360) + "deg) scale(.4)",
           opacity: 0
         }
-      ], { duration: 900, easing: "ease-out" });
+      ], { duration: 900, easing: "ease-out" }); // 这里的 900 是爆炸动画持续时长
       document.body.appendChild(s);
       setTimeout(function () { s.remove(); }, 900);
     }
+    // 点击时 30% 的概率弹出一句台词
     if (Math.random() < 0.3) { toast(pick(CONFIG.pool)); }
   });
 
+  // Toast（底部提示）
   let toastTimer = null;
   function toast(msg) {
     let el = document.querySelector(".toast");
@@ -489,12 +536,14 @@ const CONFIG = {
     }
     el.textContent = msg;
     clearTimeout(toastTimer);
+    // 【功能调整】：2400 是底部提示条停留的时长（毫秒）
     toastTimer = setTimeout(function () { el.remove(); }, 2400);
   }
 
+  // 弹窗广告
   let adSeed = 0;
   function adSpot(i) {
-    const margin = 20; 
+    const margin = 20; // 广告距离屏幕边缘的最小距离（像素）
     const adW = Math.min(290, window.innerWidth * 0.72) + 20;
     const adH = Math.min(180, window.innerHeight * 0.35);
 
@@ -544,6 +593,7 @@ const CONFIG = {
     const close = document.createElement("div");
     close.className = "close";
     close.textContent = "×";
+    // 修复：点击一次直接关闭
     close.addEventListener("click", function (ev) {
       ev.stopPropagation();
       ad.remove();
@@ -573,9 +623,11 @@ const CONFIG = {
     });
   });
 
+  // 【功能调整】：下面两个数字 1200 和 3000 表示打开网页后多少毫秒弹出第一批广告
   setTimeout(function () { spawnAd(CONFIG.ads[0]); }, 1200);
   setTimeout(function () { spawnAd(pick(CONFIG.ads)); }, 3000);
 
+  // 按钮
   $("btnSpeak").addEventListener("click", function () {
     if (!("speechSynthesis" in window)) {
       toast("你的浏览器不肯开口");
@@ -584,8 +636,11 @@ const CONFIG = {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(CONFIG.speakText);
     u.lang = "zh-CN";
+    
+    // 【功能调整】：朗读语速和音调 (rate 是语速，pitch 是音调)
     u.rate = 1; 
     u.pitch = 1.4;
+    
     u.volume = 1;
     window.speechSynthesis.speak(u);
   });
@@ -593,6 +648,7 @@ const CONFIG = {
   $("btnMore").addEventListener("click", function () { toast(pick(CONFIG.pool)); });
   $("btnAd").addEventListener("click", function () { spawnAd(pick(CONFIG.ads)); });
 
+  // BGM 播放逻辑
   const btnBgm = $("btnBgm");
   const audioList = (function () {
     const s = CONFIG.audioSrc;
@@ -627,6 +683,7 @@ const CONFIG = {
         const gain = actx.createGain();
         osc.type = "square";
         osc.frequency.value = CONFIG.bgmNotes[i % CONFIG.bgmNotes.length];
+        // 【功能调整】：0.06 是土味BGM的音量，越小越轻
         gain.gain.value = 0.06; 
         osc.connect(gain);
         gain.connect(actx.destination);
@@ -635,6 +692,7 @@ const CONFIG = {
         i++;
       };
       play();
+      // 【功能调整】：260 是土味BGM的音符切换速度，越小越急促
       bgmTimer = setInterval(play, 260);
       toast(CONFIG.tips.musicOn);
     } catch (err) {
@@ -702,6 +760,7 @@ const CONFIG = {
     }
   });
 
+  // 清屏按钮
   $("btnReset").addEventListener("click", function () {
     stopAllBgm();
     setTimeout(function () {
