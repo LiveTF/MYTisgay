@@ -139,6 +139,51 @@ marquee{
 .btn:hover{background:#0ff;box-shadow:2px 2px 0 #f00;animation:none;}
 .btn:active{transform:translate(4px,4px);box-shadow:none;}
 
+/* ============ 4b. 超大彩虹流光按钮 ============ */
+.btn-row-big {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 10px auto 30px auto;
+  padding: 0 16px;
+}
+.btn-rainbow {
+  display: block;
+  width: 100%;
+  padding: 18px 20px;
+  font-family: inherit;
+  font-size: clamp(20px, 3.5vw, 32px); /* 比普通按钮大很多 */
+  font-weight: 900;
+  color: #fff;
+  /* 白色文字加上深色描边，在彩虹色上更清晰 */
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+  border: 4px solid #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 6px 6px 0 #00f;
+  
+  /* 【特效调整】：LGBT 彩虹旗的配色，流光动画 */
+  background: linear-gradient(90deg, #ff0000, #ff8c00, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000);
+  background-size: 200% 100%;
+  
+  /* 3s 控制流光速度，0.5s 是抖动 */
+  animation: rainbowFlow 3s linear infinite, shake .5s infinite;
+}
+.btn-rainbow:hover {
+  /* 悬浮时流光加速，停止抖动 */
+  animation: rainbowFlow 1.5s linear infinite;
+  box-shadow: 2px 2px 0 #f00;
+}
+.btn-rainbow:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+@keyframes rainbowFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
 /* ============ 5. 弹窗广告 ============ */
 .ad{
   position:fixed;z-index:60;width:min(290px,72vw);
@@ -197,13 +242,13 @@ marquee{
 }
 footer{text-align:center;color:#888;font-size:13px;margin:40px 0 0;}
 
-/* ============ 8. 响应式排版修复 ============ */
+/* ============ 8. 响应式排版 ============ */
 .btn-row{
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
   gap: 10px;
-  margin: 24px auto;
+  margin: 24px auto 10px auto; /* 稍微减少下方 margin 给大按钮留位置 */
   max-width: 1000px;
   padding: 0 16px;
 }
@@ -255,6 +300,12 @@ body{
     padding:10px 12px;
     border-width:4px;
     box-shadow:4px 4px 0 #00f;
+  }
+  
+  .btn-row-big { padding: 0 8px; }
+  .btn-rainbow {
+    padding: 16px 10px;
+    font-size: clamp(18px, 5vw, 24px);
   }
   
   .ad{
@@ -315,8 +366,12 @@ body{
   <button class="btn" id="btnReset">🧹 清屏</button>
 </div>
 
+<!-- ===== 超大彩虹外链按钮 ===== -->
+<div class="btn-row-big">
+  <button class="btn-rainbow" id="btnCustomLink">【占位·自定义链接】</button>
+</div>
+
 <!-- ===== 左下角修复区 ===== -->
-<!-- 用 Flex 强制垂直和水平居中，彻底解决跑偏靠左的问题 -->
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin-top: 18px; margin-bottom: 18px; text-align: center;">
   <div>
     <span class="yellow blink">本页总访问量：</span>
@@ -326,7 +381,7 @@ body{
   <div class="pole" style="width: 100%; max-width: 900px; margin: 8px auto;"></div>
 </div>
 
-<footer>© 【2026】 【LGBT研究院🏳️‍🌈】 · 本页最佳浏览分辨率 800×600 · 建议使用 IE6 观看</footer>
+<footer>© 【2026】 【同性恋研究院】 · 本页最佳浏览分辨率 800×600 · 建议使用 IE6 观看</footer>
 
 <script>
 // ===============================================================
@@ -341,10 +396,13 @@ const CONFIG = {
   speakText:   "扫福瑞",                  // 点“大声朗读”朗读的内容
 
   // 自定义 BGM 音频（已经为你填入 audio/music.mp3）
-  // 部署在 GitHub 的话填 "music.mp3"，不要以 / 开头。留空则播放默认土味电子音。
   audioSrc:    "audio/music.mp3", 
   audioVolume: 0.8,   // 音量 0 ~ 1
   audioLoop:   false, // 是否循环播放
+
+  // ★ 自定义超大彩虹链接按钮（留空则自动隐藏该按钮）
+  customLinkText: "🌈 点击观看与114514个骚福瑞大战的绝密视频！🌈", 
+  customLinkUrl:  "https://www.bilibili.com/video/BV1GJ411x7h7/?share_source=copy_web", 
 
   // 卡片内容：你想写多少条就写多少条，逗号别丢
   lines: [
@@ -376,7 +434,7 @@ const CONFIG = {
     "【开局一条狗，装备全靠捡】"
   ],
   // 鼠标拖尾 / 点击爆炸用的表情
-  emojis: ["💥", "🌈", "⭐", "🐟", "🏳️‍🌈", "👑", "❗"],
+  emojis: ["💥", "🌈", "⭐", "🐟", "🍜", "👑", "❗"],
 
   // 底部提示条文字
   tips: {
@@ -385,7 +443,8 @@ const CONFIG = {
     musicOn:  "土味 BGM 已启动，音量请自行忍受。",
     musicOff: "BGM 已停，世界安静了。",
     musicFail:"提示你的浏览器不肯出声（AudioContext 不可用）。",
-    audioError:"音频加载失败，已回退到土味 BGM。检查路径与大小写。"
+    audioError:"音频加载失败，已回退到土味 BGM。检查路径与大小写。",
+    linkEmpty:"还没配置网址哦！"
   },
 
   bgmNotes: [523, 659, 784, 659], // 土味 BGM 的音高（Hz），随便改
@@ -647,6 +706,21 @@ const CONFIG = {
 
   $("btnMore").addEventListener("click", function () { toast(pick(CONFIG.pool)); });
   $("btnAd").addEventListener("click", function () { spawnAd(pick(CONFIG.ads)); });
+
+  // ★ 渲染彩虹超大外链按钮
+  const btnCustomLink = $("btnCustomLink");
+  if (CONFIG.customLinkText) {
+    btnCustomLink.textContent = CONFIG.customLinkText;
+    btnCustomLink.addEventListener("click", function () {
+      if (CONFIG.customLinkUrl) {
+        window.open(CONFIG.customLinkUrl, "_blank"); // 新标签页打开
+      } else {
+        toast(CONFIG.tips.linkEmpty);
+      }
+    });
+  } else {
+    document.querySelector(".btn-row-big").style.display = "none";
+  }
 
   // BGM 播放逻辑
   const btnBgm = $("btnBgm");
