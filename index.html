@@ -4,15 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>【占位·网页标题】</title>
-<!--
-================================================================
-   部署到 GitHub Pages：
-   1. index.html 放仓库根目录
-   2. MP3 也放仓库根目录（或子目录），文件名全小写
-   3. 滚到最底部 CONFIG 的 audioSrc 填相对路径，例如 "music.mp3"
-   4. 不要以 / 开头，不要填 http:// 链接
-================================================================
--->
 <style>
 /* ============ 0. 全局：越花越乱越带劲 ============ */
 *{box-sizing:border-box;}
@@ -23,34 +14,50 @@ body{
   background-color:#000;color:#0f0;
   overflow-x:hidden;cursor:crosshair;
   padding:0 8px 160px;
-  animation:bgPulse 7s linear infinite;
+  
+  /* 【特效调整】：7s 是背景颜色循环变色的速度，数字越小闪得越快 */
+  animation:bgPulse 7s linear infinite; 
+  
   overflow-wrap:break-word;
   word-break:break-word;
 }
+
+/* 【特效调整】：这里控制背景变色的具体颜色，可换成你喜欢的色号 */
 @keyframes bgPulse{
   0%{background-color:#000}20%{background-color:#2a0033}40%{background-color:#003322}
   60%{background-color:#332200}80%{background-color:#00223a}100%{background-color:#000}
 }
+
 /* 会动的"泥点子"背景 */
 #tile{
-  position:fixed;inset:-10%;z-index:-1;opacity:.22;pointer-events:none;
+  position:fixed;inset:-10%;z-index:-1;
+  opacity:.22; /* 【特效调整】：背景泥点子的不透明度，0~1，越小越暗 */
+  pointer-events:none;
   background-image:
     radial-gradient(#ff00ff 3px,transparent 4px),
     radial-gradient(#00ffff 3px,transparent 4px),
     radial-gradient(#ffff00 2px,transparent 3px);
   background-size:60px 60px,90px 90px,40px 40px;
   background-position:0 0,30px 30px,15px 5px;
+  
+  /* 【特效调整】：3s 是泥点子背景滚动的速度，数字越小滚得越快 */
   animation:tileMove 3s linear infinite;
 }
 @keyframes tileMove{to{background-position:60px 60px,120px 120px,55px 45px}}
+
 /* ============ 1. 文字特效 ============ */
 .rainbow{
-  animation:rainbow .6s steps(1) infinite,shake .15s infinite;
-  font-size:clamp(28px,7vw,72px);font-weight:900;line-height:1.15;
+  /* 【特效调整】：.6s 是主标题变色速度，.15s 是主标题抖动速度 */
+  animation:rainbow .6s steps(1) infinite, shake .15s infinite;
+  
+  font-size:clamp(28px,7vw,72px); /* 主标题基础大小 */
+  font-weight:900;line-height:1.15;
   text-align:center;margin:14px 0;letter-spacing:2px;
-  -webkit-text-stroke:2px #000;
+  
+  -webkit-text-stroke:2px #000; /* 【特效调整】：主标题描边粗细，改成 0px 就是不要描边 */
 }
 @keyframes rainbow{
+  /* 【特效调整】：这里的 text-shadow:4px 4px 0 是文字的彩色阴影厚度，数字越大越粗犷 */
   0%{color:#f00;text-shadow:4px 4px 0 #0ff}
   17%{color:#ff0;text-shadow:4px 4px 0 #f0f}
   33%{color:#0f0;text-shadow:4px 4px 0 #00f}
@@ -61,56 +68,77 @@ body{
 }
 .blink{animation:blink .8s steps(1) infinite;}
 @keyframes blink{50%{opacity:0}}
+
 .shake{display:inline-block;animation:shake .16s infinite;}
 @keyframes shake{
+  /* 【特效调整】：这里控制标题/文字的抖动幅度，translate 是位移，rotate 是旋转角度 */
   0%{transform:translate(0,0) rotate(-1deg)}
   25%{transform:translate(2px,-2px) rotate(1.5deg)}
   50%{transform:translate(-2px,1px) rotate(-2deg)}
   75%{transform:translate(1px,2px) rotate(1deg)}
   100%{transform:translate(0,0) rotate(-1deg)}
 }
+
 .wordart{
   display:inline-block;font-size:clamp(22px,5vw,44px);font-weight:900;
-  color:#ff0;transform:skew(-8deg) rotate(-2deg);
+  color:#ff0;
+  
+  /* 【特效调整】：skew(-8deg) 是文字向左倾斜的角度，rotate(-2deg) 是整体旋转角度 */
+  transform:skew(-8deg) rotate(-2deg);
+  
+  /* 【特效调整】：文字的三层彩色阴影，数字越大阴影越厚 */
   text-shadow:2px 2px 0 #f0f,4px 4px 0 #0ff,6px 6px 0 #000;
   padding:4px 10px;
 }
-.giant{font-size:clamp(40px,13vw,140px);}
+
+.giant{font-size:clamp(40px,13vw,140px);} /* 超大字体的尺寸 */
 .lime{color:#0f0}.magenta{color:#f0f}.cyan{color:#0ff}.yellow{color:#ff0}
 #mainTitle,#subTitle,#bigName{
   max-width:100%;
   overflow-wrap:anywhere;
 }
-/* ============ 2. 滚动字幕（土味核心） ============ */
+
+/* ============ 2. 滚动字幕 ============ */
 marquee{
   display:block;margin:12px 0;padding:8px 0;
   background:linear-gradient(90deg,#ff0,#f0f,#0ff,#0f0,#ff0);
   color:#000;font-weight:900;font-size:clamp(16px,3.4vw,30px);
   border-top:6px dashed #f00;border-bottom:6px dashed #00f;
 }
+
 /* ============ 3. 歪掉的卡片 ============ */
 .card{
   max-width:900px;margin:26px auto;padding:18px 16px;
   background:repeating-linear-gradient(45deg,#111 0 12px,#1a1a1a 12px 24px);
   border:8px double #0ff;
   box-shadow:10px 10px 0 #f0f,-10px -10px 0 #ff0;
-  transform:rotate(-1.2deg);text-align:center;
+  
+  /* 【特效调整】：rotate(-1.2deg) 是奇数卡片的倾斜角度 */
+  transform:rotate(-1.2deg);
+  text-align:center;
 }
 .card:nth-of-type(even){
-  transform:rotate(1.6deg);border-color:#ff0;
+  /* 【特效调整】：rotate(1.6deg) 是偶数卡片的倾斜角度，和上面的角度相反 */
+  transform:rotate(1.6deg);
+  border-color:#ff0;
   box-shadow:-10px 10px 0 #0f0,10px -10px 0 #f00;
 }
 .card p{font-size:clamp(15px,2.6vw,22px);line-height:1.85;color:#fff;margin:10px 0;}
 .tagline{font-size:clamp(18px,4vw,34px);font-weight:900;color:#ff0;}
+
 /* ============ 4. 按钮 ============ */
 .btn{
   display:inline-block;margin:6px;padding:14px 22px;
   font-family:inherit;font-size:clamp(15px,2.6vw,22px);font-weight:900;
   color:#000;background:#ff0;border:5px outset #f0f;
-  cursor:pointer;box-shadow:6px 6px 0 #00f;animation:shake .5s infinite;
+  cursor:pointer;box-shadow:6px 6px 0 #00f;
+  
+  /* 【特效调整】：.5s 是按钮默认抖动的速度，如果觉得太晃眼可以去掉这个属性 */
+  animation:shake .5s infinite;
 }
 .btn:hover{background:#0ff;box-shadow:2px 2px 0 #f00;animation:none;}
 .btn:active{transform:translate(4px,4px);box-shadow:none;}
+
 /* ============ 5. 弹窗广告 ============ */
 .ad{
   position:fixed;z-index:60;width:min(290px,72vw);
@@ -118,9 +146,12 @@ marquee{
   background:#ff0;color:#000;border:6px ridge #f00;
   font-weight:900;font-size:15px;text-align:center;
   box-shadow:8px 8px 0 rgba(0,0,0,.6);
+  
+  /* 【特效调整】：.9s 是广告窗口持续扭动呼吸的速度 */
   animation:adJiggle .9s infinite alternate;
 }
 @keyframes adJiggle{
+  /* 【特效调整】：广告扭动的幅度，2deg / 2.5deg 是旋转，1.03 是放大的比例 */
   from{transform:rotate(-2deg) scale(1)}
   to{transform:rotate(2.5deg) scale(1.03)}
 }
@@ -131,6 +162,7 @@ marquee{
   font-weight:900;font-size:14px;line-height:20px;text-align:center;
   cursor:pointer;z-index:2;
 }
+
 /* ============ 6. 假计数器 & 施工条 ============ */
 .counter{
   display:inline-block;background:#000;border:4px inset #0f0;color:#f00;
@@ -140,12 +172,17 @@ marquee{
 .pole{
   height:26px;border:4px solid #000;
   background:repeating-linear-gradient(45deg,#ff0 0 18px,#000 18px 36px);
-  background-size:51px 51px;animation:poleMove .8s linear infinite;
+  background-size:51px 51px;
+  
+  /* 【特效调整】：.8s 是黄黑警示条滚动的速度 */
+  animation:poleMove .8s linear infinite;
 }
 @keyframes poleMove{to{background-position:51px 0}}
+
 /* ============ 7. 粒子 & 提示条 ============ */
 .trail{
   position:fixed;z-index:99;pointer-events:none;font-size:22px;
+  /* 【特效调整】：.9s 是鼠标拖尾表情消失的动画时间 */
   animation:trailFade .9s linear forwards;
 }
 @keyframes trailFade{
@@ -158,40 +195,30 @@ marquee{
   border:6px dashed #f0f;font-weight:900;
   font-size:clamp(14px,2.4vw,20px);text-align:center;
 }
-/* ============ 8. 使用说明 & 页脚 ============ */
-.help{
-  max-width:900px;margin:30px auto;padding:14px 18px;
-  border:6px dotted #0ff;background:#101010;color:#0ff;
-  font-size:15px;line-height:1.9;text-align:left;
-}
-.help code{background:#222;color:#ff0;padding:1px 5px;}
 footer{text-align:center;color:#888;font-size:13px;margin:40px 0 0;}
 
-/* ============ 9. 响应式自动排版 ============ */
+/* ============ 8. 响应式排版修复 ============ */
 .wrap{
   max-width:1000px;
   margin-left:auto;margin-right:auto;
 }
 
 .btn-row{
-  display:flex;flex-wrap:wrap;justify-content:center;
-  gap:clamp(6px,1.5vw,12px);
-  margin:clamp(16px,4vw,28px) auto;
-  max-width:1000px;
-  padding:0 clamp(4px,1.5vw,16px);
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap: 10px;
+  margin: 24px auto;
+  max-width: 1000px;
+  padding: 0 16px;
 }
 .btn-row .btn{
-  margin:0;
-  flex:1 1 auto;
-  min-width:0;
-  max-width:100%;
-  white-space:normal;
-  word-break:break-word;
+  margin: 0;
+  flex: 0 1 auto;
+  white-space: nowrap;
 }
 
-.ad{
-  max-width:calc(100vw - 24px);
-}
+.ad{max-width:calc(100vw - 24px);}
 
 body{
   padding-left:max(8px, env(safe-area-inset-left));
@@ -201,7 +228,6 @@ body{
 
 @media (max-width:768px){
   .card{padding:14px 12px;margin:20px auto;}
-  .help{padding:12px 14px;}
 }
 
 @media (max-width:480px){
@@ -227,15 +253,16 @@ body{
   .card p{line-height:1.7;}
   .tagline{font-size:clamp(15px,5vw,22px);}
   .counter{font-size:clamp(16px,6vw,24px);letter-spacing:1px;}
-  .help{padding:10px 12px;font-size:13px;}
   footer{font-size:11px;padding:0 8px;line-height:1.6;}
-  .btn-row{gap:6px;padding:0 4px;}
+  
+  .btn-row{gap: 8px; padding: 0 8px;}
   .btn{
     font-size:clamp(12px,3.6vw,16px);
     padding:10px 12px;
     border-width:4px;
     box-shadow:4px 4px 0 #00f;
   }
+  
   .ad{
     padding:28px 10px 10px;
     font-size:13px;
@@ -262,19 +289,6 @@ body{
   .counter{font-size:15px;letter-spacing:0;}
 }
 
-@media (max-height:480px) and (orientation:landscape){
-  body{padding-bottom:calc(80px + env(safe-area-inset-bottom));}
-  .rainbow{margin:6px 0;}
-  .card{margin:12px auto;padding:10px;}
-  marquee{margin:6px 0;padding:4px 0;}
-  .btn-row{margin:10px auto;}
-}
-
-@media (min-width:1200px){
-  .card{max-width:860px;}
-  .rainbow{letter-spacing:4px;}
-}
-
 @media (hover:none),(pointer:coarse){
   .trail{font-size:16px;}
   .burst{font-size:22px;}
@@ -283,13 +297,12 @@ body{
 </head>
 <body>
 <div id="tile"></div>
-<!-- ===== 顶部鬼畜标题（文字由 CONFIG 填） ===== -->
+
 <div class="rainbow giant" id="mainTitle">【占位·主标题】</div>
 <div style="text-align:center">
   <span class="wordart" id="subTitle">【占位·副标题】</span>
 </div>
 
-<!-- ===== 滚动字幕 ===== -->
 <marquee behavior="alternate" scrollamount="14" id="marqueeAlt">【占位·来回横跳字幕】</marquee>
 <marquee direction="right" scrollamount="20" id="marqueeRight">【占位·逆向狂奔字幕】</marquee>
 
@@ -297,7 +310,6 @@ body{
   <span class="giant shake lime" id="bigName">【占位·主角名字】</span>
 </div>
 
-<!-- ===== 卡片区（内容由 CONFIG 生成） ===== -->
 <div id="cards"></div>
 
 <!-- ===== 按钮区 ===== -->
@@ -309,7 +321,6 @@ body{
   <button class="btn" id="btnReset">🧹 清屏</button>
 </div>
 
-<!-- ===== 假计数器 / 施工中 ===== -->
 <div class="wrap" style="text-align:center;margin:18px 0">
   <span class="yellow blink">本页总访问量：</span>
   <span class="counter" id="counter">0000283</span>
@@ -317,36 +328,27 @@ body{
   <div class="pole" style="max-width:900px;margin:8px auto"></div>
 </div>
 
-<!-- ===== CHG ABOVE ===== -->
-
 <footer class="wrap">© 【2026】 【同性恋研究院】 · 本页最佳浏览分辨率 800×600 · 建议使用 IE6 观看</footer>
+
 <script>
-/* ==================================================================
-   ★★★ 只改这一块就行：所有文案都在 CONFIG 里 ★★★
-   —— 每个【…】都是占位符，换成你自己写的字就行。
-   —— 数组（lines / pool / ads / emojis）想加几条加几条，逗号别丢。
-   ================================================================== */
+// ===============================================================
+// ★★★ 只改这一块就行：所有文案、数字、设定都在 CONFIG 里 ★★★
+// ===============================================================
 const CONFIG = {
-  title:       "【震 惊 全 网】",
-  subTitle:    "【超级福瑞控武昭宇】",
-  bigName:     "【武昭宇居然是同性恋】",
-  marqueeAlt:  "【隐藏了14年终于被发现】",
-  marqueeRight:"【有114514个扫福瑞与其战斗失败】",
-  speakText:   "扫福瑞",
+  title:       "【震 惊 全 网】",          // 网页大标题
+  subTitle:    "【超级福瑞控武昭宇】",      // 副标题
+  bigName:     "【武昭宇居然是同性恋】",    // 中间巨大的名字
+  marqueeAlt:  "【隐藏了14年终于被发现】",  // 来回滚动字幕
+  marqueeRight:"【有114514个扫福瑞与其战斗失败】", // 逆向滚动字幕
+  speakText:   "扫福瑞",                  // 点“大声朗读”朗读的内容
 
-  // ★ 自定义 BGM（由原来的“播放土味BGM”按钮控制）
-  // GitHub Pages 用法：
-  //   - MP3 与 index.html 同目录，填 "music.mp3"
-  //   - 在子目录 audio 下，填 "audio/music.mp3"
-  //   - 不要以 / 开头，不要填 http:// 链接
-  //   - 文件名全小写，别带空格、括号、#、?
-  //   - 留空则继续使用 Web Audio 土味音调
-  //   - 填数组可顺序播放，例如 ["a.mp3", "b.mp3"]
-  audioSrc:    "audio/music.mp3",
-  audioVolume: 0.8,     // 0 ~ 1
-  audioLoop:   false,   // 单曲循环（数组时只循环当前这首）
+  // 自定义 BGM 音频
+  // 部署在 GitHub 的话填 "music.mp3"，不要以 / 开头。留空则播放默认土味电子音。
+  audioSrc:    "", 
+  audioVolume: 0.8,   // 音量 0 ~ 1
+  audioLoop:   false, // 是否循环播放
 
-  // 歪卡片：一条 = 一张卡
+  // 卡片内容：你想写多少条就写多少条，逗号别丢
   lines: [
     "【据不愿透露姓名的人士透露……】",
     "【根据有武昭宇 Blued好友的透露】",
@@ -354,6 +356,7 @@ const CONFIG = {
     "【根据武昭宇的群U透露】",
     "【根据猫咖工作人员说明】"
   ],
+  // 对应上面的卡片底部的黄字
   footers: [
     "【武昭宇是同性恋】",
     "【很帅很嫩很乖】",
@@ -369,7 +372,7 @@ const CONFIG = {
     "【很舒服】",
     "【平板支撑第9178天】"
   ],
-  // 弹窗广告文案
+  // 弹窗广告的文案
   ads: [
     "【点击就送屠龙宝刀】",
     "【开局一条狗，装备全靠捡】"
@@ -377,35 +380,36 @@ const CONFIG = {
   // 鼠标拖尾 / 点击爆炸用的表情
   emojis: ["💥", "🌈", "⭐", "🐟", "🍜", "👑", "❗"],
 
-  // 系统提示文案
+  // 底部提示条文字
   tips: {
     adClosed: "广告已关闭，但这份粗糙永存。",
     cleaned:  "清屏完成，风格依旧相当野生。",
     musicOn:  "土味 BGM 已启动，音量请自行忍受。",
     musicOff: "BGM 已停，世界安静了。",
     musicFail:"提示你的浏览器不肯出声（AudioContext 不可用）。",
-    audioOn:  "自定义 BGM 已启动。",
-    audioOff: "自定义 BGM 已暂停。",
-    audioError:"音频加载失败，已回退到土味 BGM。检查 audioSrc 路径与文件名大小写。"
+    audioError:"音频加载失败，已回退到土味 BGM。检查路径与大小写。"
   },
 
   bgmNotes: [523, 659, 784, 659], // 土味 BGM 的音高（Hz），随便改
   visitorStart: 12345             // 假访问量起始值
 };
 
-/* ==================================================================
-   下面是页面逻辑，不改 CONFIG 的话不需要动
-   ================================================================== */
+// ===============================================================
+// 下面是页面逻辑，不改 CONFIG 的话不需要动
+// ===============================================================
 (function () {
   const $ = function (id) { return document.getElementById(id); };
   const pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
   const pad = function (n) { return String(n).padStart(6, "0"); };
 
+  // 【特效调整】：鼠标/手指滑动时产生拖尾的灵敏度（数值越大，生成得越稀疏）
   const isCoarse = window.matchMedia("(pointer:coarse)").matches;
-  const TRAIL_GAP = isCoarse ? 120 : 60;
-  const BURST_COUNT = isCoarse ? 6 : 10;
+  const TRAIL_GAP = isCoarse ? 120 : 60; // 手机上是120，电脑上是60
+  
+  // 【特效调整】：每次点击爆炸产生的表情数量
+  const BURST_COUNT = isCoarse ? 6 : 10; // 手机爆炸6个，电脑爆炸10个
 
-  /* ---------- 1. 把 CONFIG 的字填进页面 ---------- */
+  // 填字
   document.title = CONFIG.title.replace(/[【】]/g, "");
   $("mainTitle").textContent    = CONFIG.title;
   $("subTitle").textContent     = CONFIG.subTitle;
@@ -413,7 +417,7 @@ const CONFIG = {
   $("marqueeAlt").textContent   = CONFIG.marqueeAlt + "　　" + CONFIG.marqueeAlt;
   $("marqueeRight").textContent = CONFIG.marqueeRight + "　　" + CONFIG.marqueeRight;
 
-  /* ---------- 1b. 大标题自适应 ---------- */
+  // 大标题自适应
   function autoFit(el, minPx) {
     el.style.whiteSpace = "nowrap";
     el.style.fontSize = "";
@@ -445,7 +449,7 @@ const CONFIG = {
     document.fonts.ready.then(fitTitles);
   }
 
-  /* ---------- 2. 生成歪卡片 ---------- */
+  // 生成卡片
   const cardBox = $("cards");
   CONFIG.lines.forEach(function (text, i) {
     const card = document.createElement("div");
@@ -468,16 +472,17 @@ const CONFIG = {
     cardBox.appendChild(card);
   });
 
-  /* ---------- 3. 假访问量计数器 ---------- */
+  // 假计数器
   let hits = CONFIG.visitorStart;
   const counter = $("counter");
   counter.textContent = pad(hits);
+  // 【功能调整】：这里控制访问量增加的速度，800 是 0.8 秒加一次，改小加得快
   setInterval(function () {
     hits += 1 + Math.floor(Math.random() * 7);
     counter.textContent = pad(hits);
   }, 800);
 
-  /* ---------- 4. 鼠标 / 手指拖尾 ---------- */
+  // 鼠标拖尾
   let lastTrail = 0;
   document.addEventListener("pointermove", function (e) {
     const now = Date.now();
@@ -489,10 +494,11 @@ const CONFIG = {
     s.style.left = (e.clientX - 10) + "px";
     s.style.top = (e.clientY - 10) + "px";
     document.body.appendChild(s);
+    // 【功能调整】：900 是拖尾表情在屏幕上的存活时间（毫秒），改大消失得慢
     setTimeout(function () { s.remove(); }, 900);
   });
 
-  /* ---------- 5. 点击位置爆炸 ---------- */
+  // 点击爆炸
   document.addEventListener("click", function (e) {
     for (let i = 0; i < BURST_COUNT; i++) {
       const s = document.createElement("span");
@@ -501,7 +507,10 @@ const CONFIG = {
       s.style.left = (e.clientX - 15) + "px";
       s.style.top = (e.clientY - 15) + "px";
       const ang = Math.random() * Math.PI * 2;
-      const dist = 60 + Math.random() * 160;
+      
+      // 【特效调整】：dist 控制爆炸时飞溅的散开距离（60~220像素）
+      const dist = 60 + Math.random() * 160; 
+      
       s.animate([
         { transform: "translate(0,0) rotate(0deg) scale(1)", opacity: 1 },
         {
@@ -510,14 +519,15 @@ const CONFIG = {
                      (Math.random() * 720 - 360) + "deg) scale(.4)",
           opacity: 0
         }
-      ], { duration: 900, easing: "ease-out" });
+      ], { duration: 900, easing: "ease-out" }); // 这里的 900 是爆炸动画持续时长
       document.body.appendChild(s);
       setTimeout(function () { s.remove(); }, 900);
     }
+    // 点击时 30% 的概率弹出一句台词
     if (Math.random() < 0.3) { toast(pick(CONFIG.pool)); }
   });
 
-  /* ---------- 6. 底部提示条 ---------- */
+  // Toast（底部提示）
   let toastTimer = null;
   function toast(msg) {
     let el = document.querySelector(".toast");
@@ -528,14 +538,14 @@ const CONFIG = {
     }
     el.textContent = msg;
     clearTimeout(toastTimer);
+    // 【功能调整】：2400 是底部提示条停留的时长（毫秒）
     toastTimer = setTimeout(function () { el.remove(); }, 2400);
   }
 
-  /* ---------- 7. 弹窗广告 ---------- */
+  // 弹窗广告
   let adSeed = 0;
-
   function adSpot(i) {
-    const margin = 8;
+    const margin = 20; // 广告距离屏幕边缘的最小距离（像素）
     const adW = Math.min(290, window.innerWidth * 0.72) + 20;
     const adH = Math.min(180, window.innerHeight * 0.35);
 
@@ -557,7 +567,7 @@ const CONFIG = {
   }
 
   function clampAd(ad) {
-    const margin = 8;
+    const margin = 20;
     const rect = ad.getBoundingClientRect();
     let left = parseFloat(ad.style.left) || 0;
     let top = parseFloat(ad.style.top) || 0;
@@ -585,18 +595,9 @@ const CONFIG = {
     const close = document.createElement("div");
     close.className = "close";
     close.textContent = "×";
-    let dodged = false;
+    // 修复：点击一次直接关闭
     close.addEventListener("click", function (ev) {
       ev.stopPropagation();
-      if (!dodged) {
-        dodged = true;
-        const s2 = adSpot(Math.floor(Math.random() * 5));
-        ad.style.left = s2.x + "px";
-        ad.style.top = s2.y + "px";
-        close.textContent = "再点";
-        requestAnimationFrame(function () { clampAd(ad); });
-        return;
-      }
       ad.remove();
       toast(CONFIG.tips.adClosed);
     });
@@ -624,10 +625,11 @@ const CONFIG = {
     });
   });
 
+  // 【功能调整】：下面两个数字 1200 和 3000 表示打开网页后多少毫秒弹出第一批广告
   setTimeout(function () { spawnAd(CONFIG.ads[0]); }, 1200);
   setTimeout(function () { spawnAd(pick(CONFIG.ads)); }, 3000);
 
-  /* ---------- 8. 按钮 ---------- */
+  // 按钮
   $("btnSpeak").addEventListener("click", function () {
     if (!("speechSynthesis" in window)) {
       toast("你的浏览器不肯开口");
@@ -636,8 +638,11 @@ const CONFIG = {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(CONFIG.speakText);
     u.lang = "zh-CN";
-    u.rate = 1;
+    
+    // 【功能调整】：朗读语速和音调 (rate 是语速，pitch 是音调)
+    u.rate = 1; 
     u.pitch = 1.4;
+    
     u.volume = 1;
     window.speechSynthesis.speak(u);
   });
@@ -645,9 +650,8 @@ const CONFIG = {
   $("btnMore").addEventListener("click", function () { toast(pick(CONFIG.pool)); });
   $("btnAd").addEventListener("click", function () { spawnAd(pick(CONFIG.ads)); });
 
-  /* ---------- 9. BGM：优先自定义 MP3，未配置则回退土味音调 ---------- */
+  // BGM 播放逻辑
   const btnBgm = $("btnBgm");
-
   const audioList = (function () {
     const s = CONFIG.audioSrc;
     if (!s) return [];
@@ -655,20 +659,12 @@ const CONFIG = {
   })();
   const hasCustomAudio = audioList.length > 0;
 
-  const LABEL_PLAY_CUSTOM = "🎵 播放自定义BGM";
-  const LABEL_STOP_CUSTOM = "🔇 关掉自定义BGM";
-  const LABEL_PLAY_TONE   = "🎵 播放土味BGM";
-  const LABEL_STOP_TONE   = "🔇 关掉土味BGM";
-
-  btnBgm.textContent = hasCustomAudio ? LABEL_PLAY_CUSTOM : LABEL_PLAY_TONE;
-
   let actx = null;
   let bgmTimer = null;
   let customAudio = null;
   let audioIdx = 0;
 
   function setAudioSrc() {
-    // GitHub Pages 上文件名带空格/中文时，必须 encodeURI，否则 404
     customAudio.src = encodeURI(audioList[audioIdx]);
   }
 
@@ -676,9 +672,6 @@ const CONFIG = {
     if (bgmTimer) {
       clearInterval(bgmTimer);
       bgmTimer = null;
-    }
-    if (!customAudio || customAudio.paused) {
-      btnBgm.textContent = hasCustomAudio ? LABEL_PLAY_CUSTOM : LABEL_PLAY_TONE;
     }
   }
 
@@ -692,7 +685,8 @@ const CONFIG = {
         const gain = actx.createGain();
         osc.type = "square";
         osc.frequency.value = CONFIG.bgmNotes[i % CONFIG.bgmNotes.length];
-        gain.gain.value = 0.06;
+        // 【功能调整】：0.06 是土味BGM的音量，越小越轻
+        gain.gain.value = 0.06; 
         osc.connect(gain);
         gain.connect(actx.destination);
         osc.start();
@@ -700,8 +694,8 @@ const CONFIG = {
         i++;
       };
       play();
+      // 【功能调整】：260 是土味BGM的音符切换速度，越小越急促
       bgmTimer = setInterval(play, 260);
-      btnBgm.textContent = LABEL_STOP_TONE;
       toast(CONFIG.tips.musicOn);
     } catch (err) {
       toast(CONFIG.tips.musicFail);
@@ -717,11 +711,8 @@ const CONFIG = {
     customAudio.loop = !!CONFIG.audioLoop && audioList.length === 1;
 
     customAudio.addEventListener("play", function () {
-      stopTone(); // 和土味音调互斥
-      btnBgm.textContent = LABEL_STOP_CUSTOM;
-    });
-    customAudio.addEventListener("pause", function () {
-      btnBgm.textContent = LABEL_PLAY_CUSTOM;
+      stopTone();
+      toast("BGM 已启动");
     });
     customAudio.addEventListener("ended", function () {
       if (audioList.length > 1 && !CONFIG.audioLoop) {
@@ -729,14 +720,11 @@ const CONFIG = {
         setAudioSrc();
         const p = customAudio.play();
         if (p && p.catch) { p.catch(function () {}); }
-      } else {
-        btnBgm.textContent = LABEL_PLAY_CUSTOM;
       }
     });
     customAudio.addEventListener("error", function () {
       toast(CONFIG.tips.audioError);
       customAudio = null;
-      // 回退到土味音调，避免“点了没反应”
       playTone();
     });
   }
@@ -759,16 +747,12 @@ const CONFIG = {
           setAudioSrc();
         }
         const p = customAudio.play();
-        if (p && p.catch) {
-          p.catch(function () {
-            btnBgm.textContent = LABEL_PLAY_CUSTOM;
-          });
-        }
+        if (p && p.catch) { p.catch(function () {}); }
       } else {
         customAudio.pause();
+        toast(CONFIG.tips.musicOff);
       }
     } else {
-      // 没配置 MP3：沿用原来的土味音调开关
       if (bgmTimer) {
         stopTone();
         toast(CONFIG.tips.musicOff);
@@ -778,7 +762,7 @@ const CONFIG = {
     }
   });
 
-  /* ---------- 10. 清屏：顺手停掉 BGM ---------- */
+  // 清屏按钮
   $("btnReset").addEventListener("click", function () {
     stopAllBgm();
     setTimeout(function () {
